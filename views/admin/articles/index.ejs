@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin | All Posts</title>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="../css/font-awesome.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+    <!-- HEADER (previously header.php) -->
+    <div id="header-admin">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-2">
+                    <a href="post.html">
+                        <img class="logo" src="images/news.jpg" alt="Logo">
+                    </a>
+                </div>
+                <div class="col-md-offset-9 col-md-1">
+                    <a href="login.html" class="admin-logout">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MENU -->
+    <div id="admin-menubar">
+        <div class="container">
+            <ul class="admin-menu">
+                <li><a href="post.html">Post</a></li>
+                <li><a href="category.html">Category</a></li>
+                <li><a href="users.html">Users</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="admin-content">
+        <div class="container">
+            <div class="row">
+
+                <div class="col-md-10">
+                    <h1 class="admin-heading">All Posts</h1>
+                </div>
+
+                <div class="col-md-2">
+                    <a class="add-new" href="add-post.html">Add Post</a>
+                </div>
+
+                <div class="col-md-12">
+                    <table class="content-table">
+                        <thead>
+                            <tr>
+                                <th>S.No.</th>
+                                <th>Title</th>
+                                <th>Category</th>
+                                <th>Date</th>
+                                <th>Author</th>
+                                <th>Edit</th>
+                                <th>Delete</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="id">1</td>
+                                <td>Lorem ipsum dolor sit amet</td>
+                                <td>HTML</td>
+                                <td>01 Nov, 2019</td>
+                                <td>Admin</td>
+                                <td class="edit"><a href="update-post.html"><i class="fa fa-edit"></i></a></td>
+                                <td class="delete"><a href="delete-post.html"><i class="fa fa-trash-o"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td class="id">2</td>
+                                <td>Lorem ipsum dolor sit amet</td>
+                                <td>HTML</td>
+                                <td>01 Nov, 2019</td>
+                                <td>Admin</td>
+                                <td class="edit"><a href="update-post.html"><i class="fa fa-edit"></i></a></td>
+                                <td class="delete"><a href="delete-post.html"><i class="fa fa-trash-o"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td class="id">3</td>
+                                <td>Lorem ipsum dolor sit amet</td>
+                                <td>HTML</td>
+                                <td>01 Nov, 2019</td>
+                                <td>Admin</td>
+                                <td class="edit"><a href="update-post.html"><i class="fa fa-edit"></i></a></td>
+                                <td class="delete"><a href="delete-post.html"><i class="fa fa-trash-o"></i></a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <!-- PAGINATION -->
+                    <ul class="pagination admin-pagination">
+                        <li class="active"><a href="#">1</a></li>
+                        <li><a href="#">2</a></li>
+                        <li><a href="#">3</a></li>
+                    </ul>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER (previously footer.php) -->
+  
+
+</body>
+</html>

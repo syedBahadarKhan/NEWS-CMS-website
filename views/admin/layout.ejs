@@ -3,52 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blog Page</title>
-    <!-- Add your CSS links here -->
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <title>Admin Panel</title>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="../css/bootstrap.min.css" />
+    <!-- Font Awesome Icon -->
+    <link rel="stylesheet" href="../css/font-awesome.css">
+    <!-- Custom stylesheet -->
+    <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
 
-    <!-- Header -->
-    <header>
-        <!-- Replace this with your header content -->
-        <h1>My Blog</h1>
-        <nav>
-            <a href="#">Home</a>
-            <a href="#">Category</a>
-            <a href="#">About</a>
-        </nav>
-    </header>
-
-    <!-- Main Content -->
-    <div id="main-content">
+    <!-- HEADER -->
+    <div id="header-admin">
         <div class="container">
             <div class="row">
-                <div class="col-md-8">
-                  <% body %>
-                </div>
 
-                <!-- Sidebar -->
-                <aside class="col-md-4">
-                    <!-- Replace with sidebar content -->
-                    <div class="sidebar">
-                        <h3>Sidebar</h3>
-                        <ul>
-                            <li><a href="#">Recent Posts</a></li>
-                            <li><a href="#">Categories</a></li>
-                        </ul>
-                    </div>
-                </aside>
+                <!-- LOGO -->
+                <div class="col-md-2">
+                    <a href="post.html">
+                        <img class="logo" src="images/news.jpg" alt="Admin Logo">
+                    </a>
+                </div>
+                <!-- /LOGO -->
+
+                <!-- LOGOUT -->
+                <div class="col-md-offset-9 col-md-1">
+                    <a href="login.html" class="admin-logout">Logout</a>
+                </div>
+                <!-- /LOGOUT -->
+
             </div>
         </div>
     </div>
+    <!-- /HEADER -->
 
-    <!-- Footer -->
-    <footer>
-        <!-- Replace this with your footer content -->
-        <p>&copy; 2025 My Blog. All rights reserved.</p>
-    </footer>
+    <!-- MENU BAR -->
+    <div id="admin-menubar">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <ul class="admin-menu">
+                        <li><a href="post.html">Post</a></li>
+                        <li><a href="category.html">Category</a></li>
+                        <li><a href="users.html">Users</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /MENU BAR -->
+
+    <%- body%>
+<!-- Footer -->
+      <div id="footer">
+        <div class="container">
+            <p>© 2025 Admin Panel</p>
+        </div>
+    </div>
 
 </body>
 </html>
