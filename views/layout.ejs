@@ -3,52 +3,67 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blog Page</title>
-    <!-- Add your CSS links here -->
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>News</title>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="css/font-awesome.css">
+    <!-- Custom stylesheet -->
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
-    <!-- Header -->
-    <header>
-        <!-- Replace this with your header content -->
-        <h1>My Blog</h1>
-        <nav>
-            <a href="#">Home</a>
-            <a href="#">Category</a>
-            <a href="#">About</a>
-        </nav>
-    </header>
+<!-- HEADER -->
+<div id="header">
+    <div class="container">
+        <div class="row">
+            <!-- LOGO -->
+            <div class="col-md-offset-4 col-md-4">
+                <a href="index.html" id="logo">
+                    <img src="images/news.jpg" alt="News Logo">
+                </a>
+            </div>
+            <!-- /LOGO -->
+        </div>
+    </div>
+</div>
+<!-- /HEADER -->
 
-    <!-- Main Content -->
-    <div id="main-content">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-8">
-                  <% body %>
-                </div>
-
-                <!-- Sidebar -->
-                <aside class="col-md-4">
-                    <%- include('partials/sidebar') %>
-                    <div class="sidebar">
-                        <h3>Sidebar</h3>
-                        <ul>
-                            <li><a href="#">Recent Posts</a></li>
-                            <li><a href="#">Categories</a></li>
-                        </ul>
-                    </div>
-                </aside>
+<!-- Menu Bar -->
+<div id="menu-bar">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <ul class="menu">
+                    <li><a href="category.html">Business</a></li>
+                    <li><a href="category.html">Entertainment</a></li>
+                    <li><a href="category.html">Sports</a></li>
+                    <li><a href="category.html">Politics</a></li>
+                </ul>
             </div>
         </div>
     </div>
+</div>
+<!-- /Menu Bar -->
 
-    <!-- Footer -->
-    <footer>
-        <!-- Replace this with your footer content -->
-        <p>&copy; 2025 My Blog. All rights reserved.</p>
-    </footer>
+<div id="main-content">
+    <div class="container">
+        <div class="row">
 
+            <!-- Main content area -->
+            <div class="col-md-8">
+                <%- body %>
+            </div>
+
+            <!-- Sidebar content -->
+            <div class="col-md-4">
+                <%- include('partials/sidebar') %>
+            </div>
+
+        </div>
+    </div>
+</div>
 </body>
 </html>
