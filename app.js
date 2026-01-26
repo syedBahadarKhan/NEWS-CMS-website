@@ -24,10 +24,15 @@ app.set("view engine", "ejs")
 //Database connection
 mongoose.connect(process.env.MONGODB_URI)
 
+//frontend route 
+app.use('/', require('./routes/Frontend.js'))
 
-app.get('/', (req, res) =>{
-    res.send("this is the home Route")
+//admin route
+app.use('/admin', (req, res, next) => {
+         res.locals.layout = 'admin/layout';
+         next();
 })
+app.use('/admin', require('./routes/admin.js'))
 
 
 
