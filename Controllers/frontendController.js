@@ -31,7 +31,7 @@ const addComment = async (req, res) => {
 }
 
 
-module.exports = {
+export default  {
     index,
     articlesByCategory,
     singleArticle,

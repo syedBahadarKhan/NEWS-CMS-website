@@ -1,7 +1,7 @@
 import mongoose from "mongoose"
 import mongoosePaginate from "mongoose-paginate-v2"
 
-const newsSchema = new mongoose.Schema({
+const articleSchema = new mongoose.Schema({
     title:{
         type:String,
         required:true
@@ -34,8 +34,8 @@ const newsSchema = new mongoose.Schema({
     }
 })
 
-newsSchema.plugin(mongoosePaginate)
+articleSchema.plugin(mongoosePaginate)
 
 // module.exports = mongoose.model("News", newsSchema)
-const news = mongoose.model("News", newsSchema);
-export default news;
+const article = mongoose.model("article", articleSchema);
+export default article

@@ -2,16 +2,30 @@ import articleModel from '../Models/article.js';
 
 
 //function for all the article routes
-const allarticle = async (req, res) => {}
-const addArticlePage = async (req, res) => {}
+const allarticle = async (req, res) => {
+    res.render('admin/articles')
+}
+const addArticlePage = async (req, res) => {
+    res.render('admin/articles/create')
+}
 const addArticle = async (req, res) => {}
-const editArticlePage = async (req, res) => {}
+const editArticlePage = async (req, res) => {
+    res.render('admin/articles/update')
+}
 const updateArticle = async (req, res) => {}
 const deleteArticle = async (req, res) => {}
 
 
 
 
+export default {
+    allarticle,
+    addArticlePage,
+    addArticle,
+    editArticlePage,
+    updateArticle,
+    deleteArticle
+}
 
 
 
@@ -19,10 +33,3 @@ const deleteArticle = async (req, res) => {}
 
 
 
-
-router.get("/article", allarticle);
-router.get("/add-article", addArticlePage);
-router.post("/add-article", addArticle);
-router.get("/update-article/:id", editArticlePage);
-router.post("/update-article/:id", updateArticle);
-router.get("/delete-article/:id", deleteArticle);

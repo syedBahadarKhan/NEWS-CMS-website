@@ -8,15 +8,17 @@ import usercontroller from "../controllers/usercontroller.js";
 
 //Admin Login Route
 router.get("/", usercontroller.loginPage);
-router.post('index', usercontroller.adminLogin);
+router.post('/index', usercontroller.adminLogin);
 router.get("/logout", usercontroller.logout)
+router.get("/dashboard", usercontroller.dashboard)
+router.get("/settings", usercontroller.settings)
 
 
 // user crud routes
 router.get("/users", usercontroller.allusers);
 router.get("/add-user", usercontroller.addUserPage);
 router.post("/add-user", usercontroller.addUser);
-router.get("/update-user/:id", usercontroller.editUserPage);
+router.get("/update-user", usercontroller.editUserPage);
 router.post("/update-user/:id", usercontroller.updateUser);
 router.get("/delete-user/:id", usercontroller.deleteUser);
 
@@ -25,7 +27,7 @@ router.get("/delete-user/:id", usercontroller.deleteUser);
 router.get("/category", categorycontroller.allcategory);
 router.get("/add-category", categorycontroller.addCategoryPage);
 router.post("/add-category", categorycontroller.addCategory);
-router.get("/update-category/:id", categorycontroller.editCategoryPage);
+// router.get("/edit-category/:id", categorycontroller.editCategoryPage);
 router.post("/update-category/:id", categorycontroller.updateCategory);
 router.get("/delete-category/:id", categorycontroller.deleteCategory);
 
@@ -42,4 +44,4 @@ router.get("/delete-article/:id", articlecontroller.deleteArticle);
 router.get("/comments", commentcontroller.allComments);
 
 
-module.exports = router;
+export default router;
