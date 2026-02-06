@@ -14,6 +14,7 @@ import Post from '../Models/News.js';
 import Category from '../Models/category.js';
 import User from '../Models/user.js';
 import Comment from '../Models/comment.js';
+// import { use } from 'react';
 
 const dashboard = async (req, res) => {
     res.render('admin/Dashboard');
@@ -23,13 +24,16 @@ const dashboard = async (req, res) => {
 
 
 const allusers = async (req, res) => {
-    res.render('admin/users');
+     const users = await userModel.find();
+    res.render('admin/users', {users});
 }
+
 const addUserPage = async (req, res) => {
     res.render('admin/users/create');
 }
 const addUser = async (req, res) => {
-    
+    await userModel.create(req.body)
+    res.redirect('/admin/users');
 }
 const settings = async (req, res) =>{
     res.render('admin/setting');
