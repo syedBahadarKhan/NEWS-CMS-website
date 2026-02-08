@@ -28,9 +28,9 @@
     pagination: true,
     paginationSize: 10,
     columns: [
-      { title: "Full Name", field: "fullname" },
-      { title: "Username", field: "username" },
-      { title: "Role", field: "role" },
+      { title: "Full Name", field: "fullname", headerFilter: "input" },
+      { title: "Username", field: "username", headerFilter: "input" },
+      { title: "Role", field: "role", headerFilter: "input" },
       {
         title: "Actions",
         formatter: function (cell) {
@@ -50,3 +50,7 @@
     }
   }
 </script>
+
+<%- contentFor('tabulatorCSS') %>
+ <link href="https://unpkg.com/tabulator-tables@6.2.5/dist/css/tabulator_bootstrap5.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/tabulator-tables@6.5.1/dist/css/tabulator.min.css"> 
