@@ -33,7 +33,7 @@
       { title: "Role", field: "role", headerFilter: "input" },
       {
         title: "Actions",
-        formatter: function (cell) {
+        formatter: function (cell, formatterParams, onRendered) {
           return `
             <a href="/admin/update-user/${cell.getData()._id}" class="btn btn-sm btn-success">Edit</a>
             <button class="btn btn-sm btn-danger"
@@ -44,9 +44,25 @@
     ]
   });
 
-  function deleteUser(id) {
-    if (confirm("Are you sure?")) {
-      window.location.href = "/admin/delete-user/" + id;
+  
+  
+
+
+
+  //Delete User function
+  async function deleteUser(id){
+    try{
+      if(confirm("Are you sure to delte this user")){
+       const response= await fetch(`/admin/delete-user/${id}`, {
+          method:"delete"
+        });
+        if(response.ok){
+          window.location.reload();
+        }
+      }
+
+    }catch(err){
+      console.error(err);
     }
   }
 </script>
