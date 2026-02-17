@@ -5,8 +5,11 @@ const isLoggedIn = async(req, res, next) =>{
         const token = req.cookies.token;
         if(!token) return res.redirect("/admin")
         const tokenData = jwt.verify(token, process.env.JWT_SECRET);
-       req.user = tokenData;
-        next()
+    //    req.user = tokenData;
+       console.log(tokenData);
+       req.role = tokenData.role;
+       req.fullname = tokenData.fullname;
+        next();
     }catch(error){
         res.status(401).send("Unauthorized: invalid Token")
     }

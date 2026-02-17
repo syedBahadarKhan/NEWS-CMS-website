@@ -53,12 +53,28 @@
             <div class="row">
                 <div class="col-md-12">
                     <ul class="admin-menu">
-                          <li><a href="/admin/dashboard">Home</a></li>
-                        <li><a href="/admin/article">Article</a></li>
-                        <li><a href="/admin/category">Category</a></li>
-                        <li><a href="/admin/users">Users</a></li>
-                        <li><a href="/admin/comments">Comments</a></li>
-                        <li><a href="/admin/settings">Settings</a></li>
+                        <li>
+                          <a href="/admin/dashboard">Home</a>
+                        </li>
+                        <li>
+                          <a href="/admin/article">Article</a>
+                        </li>
+                      <% if (role === "admin") { %>
+                        <li>
+                          <a href="/admin/category">Category</a>
+                        </li>
+                        <li>
+                          <a href="/admin/users">Users</a>
+                        </li>
+                      <% } %>
+                        <li>
+                          <a href="/admin/comments">Comments</a>
+                        </li>
+                      <% if (role === "admin") { %>  
+                        <li>
+                          <a href="/admin/settings">Settings</a>
+                        </li>
+                      <% } %>
                     </ul>
                 </div>
             </div>

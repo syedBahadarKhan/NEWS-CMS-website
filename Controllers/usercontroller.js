@@ -48,7 +48,7 @@ const logout = async (req, res) => {
 // import { use } from 'react';
 
 const dashboard = async (req, res) => {
-    res.render('admin/Dashboard');
+    res.render('admin/Dashboard', {role: req.role, fullname : req.fullname });
 };
 
 
@@ -56,18 +56,18 @@ const dashboard = async (req, res) => {
 
 const allusers = async (req, res) => {
      const users = await userModel.find();
-    res.render('admin/users', {users});
+    res.render('admin/users', {users, role: req.role});
 }
 
 const addUserPage = async (req, res) => {
-    res.render('admin/users/create');
+    res.render('admin/users/create', {role: req.role});
 }
 const addUser = async (req, res) => {
     await userModel.create(req.body)
     res.redirect('/admin/users');
 }
 const settings = async (req, res) =>{
-    res.render('admin/setting');
+    res.render('admin/setting', {role: req.role});
 }
 
 const editUserPage = async (req, res) => {
@@ -77,7 +77,7 @@ const editUserPage = async (req, res) => {
      if(!user){
         return res.status(404).send("User not Found")
      }
-     res.render('admin/users/update', {user});
+     res.render('admin/users/update', {user, role: req.role});
     }catch(error){
         console.log(err);
         res.status(500).send("internal server error");
@@ -100,7 +100,7 @@ const updateUser = async (req, res) => {
         }
         user.role = role || user.role;
         await user.save()
-        res.redirect("/admin/users");
+        res.redirect("/admin/users", {role: req.role});
     }catch(error){
         console.error(error);
         res.status(500).send("Internal Server Error");
