@@ -2,24 +2,49 @@ import userModel from '../Models/user.js';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
+import Post from '../Models/News.js';
+import Category from '../Models/category.js';
+import Comment from '../Models/comment.js';
 
 dotenv.config();
 
 //functions for allt the user routes
+
+// Login function
 const loginPage = async (req, res) => {
     res.render('admin/login',{
         layout:false
     });
 }
 const adminLogin = async (req, res) => {
-
+  const {username, password} = req.body;
+  try{
+    const user = await userModel.findOne({ username });
+    if(!user){
+        return res.status(401).send("invalid username or password");
+    }
+    const isMatch = await bcrypt.compare(password, user.password);
+    if(!isMatch){
+        return res.status(401).send("invalid username or password");
+    }
+    const jwtData = {id:user._id, fullname:user.fullname, role:user.role};
+    const token = jwt.sign(jwtData, process.env.JWT_SECRET, {expiresIn: '1h'});
+    res.cookie("token", token, {httpOnly:true, maxAge: 60 * 60 * 1000 })
+    res.redirect('/admin/dashboard')
+  }
+  catch(error){
+    console.error(error);
+    res.status(500).send("Internal Server Error")
+  }
 }
-const logout = async (req, res) => {}
 
-import Post from '../Models/News.js';
-import Category from '../Models/category.js';
-import User from '../Models/user.js';
-import Comment from '../Models/comment.js';
+//Admin Logout function
+const logout = async (req, res) => {
+       res.clearCookie("token");
+         res.redirect('/admin');
+}
+
+
 // import { use } from 'react';
 
 const dashboard = async (req, res) => {
