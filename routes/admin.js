@@ -30,6 +30,7 @@ router.get("/category", isLoggedIn, isAdmin, categorycontroller.allcategory);
 router.get("/add-category", isLoggedIn, isAdmin, categorycontroller.addCategoryPage);
 router.post("/add-category", isLoggedIn, isAdmin, categorycontroller.addCategory);
 // router.get("/edit-category/:id", categorycontroller.editCategoryPage);
+router.get('/update-category/:id', isLoggedIn, isAdmin, categorycontroller.updateCategoryPage);
 router.post("/update-category/:id", isLoggedIn, isAdmin, categorycontroller.updateCategory);
 router.delete("/delete-category/:id", isLoggedIn, isAdmin, categorycontroller.deleteCategory);
 
