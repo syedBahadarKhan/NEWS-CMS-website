@@ -6,6 +6,7 @@ import commentcontroller from "../controllers/commentcontroller.js";
 import usercontroller from "../controllers/usercontroller.js";
 import isLoggedIn from "../middlewares/isLoggedin.js";
 import isAdmin from "../middlewares/isAdmin.js";
+import upload from "../middlewares/multer.js";
 
 
 //Admin Login Route
@@ -37,9 +38,9 @@ router.delete("/delete-category/:id", isLoggedIn, isAdmin, categorycontroller.de
 // Article CRUD routes
 router.get("/article", isLoggedIn,  articlecontroller.allarticle);
 router.get("/add-article", isLoggedIn, articlecontroller.addArticlePage);
-router.post("/add-article", isLoggedIn,  articlecontroller.addArticle);
+router.post("/add-article", isLoggedIn, upload.single("image"), articlecontroller.addArticle);
 router.get("/update-article/:id", isLoggedIn,  articlecontroller.editArticlePage);
-router.post("/update-article/:id", isLoggedIn,  articlecontroller.updateArticle);
+router.post("/update-article/:id", isLoggedIn, upload.single("image"), articlecontroller.updateArticle);
 router.delete("/delete-article/:id", isLoggedIn,  articlecontroller.deleteArticle);
 
 

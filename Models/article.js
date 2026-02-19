@@ -14,12 +14,12 @@ const articleSchema = new mongoose.Schema({
 
     category:{
         type:mongoose.Schema.Types.ObjectId,
-        ref:"category",
+        ref:"Category",
         required:true
     },
     author:{
         type:mongoose.Schema.Types.ObjectId,
-        ref:'user',
+        ref:'User',
         required:true
     },
 
