@@ -1,4 +1,5 @@
 import articleModel from '../Models/article.js';
+import categoryModel from '../Models/category.js';
 
 
 //function for all the article routes
@@ -6,7 +7,7 @@ const allarticle = async (req, res) => {
     res.render('admin/articles', {role: req.role});
 }
 const addArticlePage = async (req, res) => {
-    const categories = await articleModel.find();
+    const categories = await categoryModel.find();
     res.render('admin/articles/create', {role: req.role, categories});
 }
 const addArticle = async (req, res) => {}
