@@ -34,7 +34,13 @@
     columns: [
      { title: "S.NO.", formatter: "rownum", hozAlign: "center", width: 100 },
       { title: "Title", field: "title", headerFilter: "input" },
-      { title: "Category", field: "category.name", headerFilter: "input" },
+      { title: "Date", field: "craetedAt", headerFilter: "input",
+       formatter: function(cell, formatterParams, onRendered) {
+        const date = new Date(cell.getValue());
+        return date.toLocaleDateString('en-GB', {day: '2-digit', month: 'short', year: 'numeric' }).replace(/\s/g, '-');
+      }},
+      { title: "Category", field: "category.name"},
+       { title: "Author", field: "author.fullname"},
     
       {
         title: "Actions",

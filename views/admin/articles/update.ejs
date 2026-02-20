@@ -11,7 +11,7 @@
 
             <div class="col-md-offset-3 col-md-6">
                 <!-- UPDATE FORM -->
-                <form action="#" method="post" enctype="multipart/form-data" autocomplete="off">
+                <form action="/admin/article/update/<%= article._id %>" method="post" enctype="multipart/form-data" autocomplete="off">
 
                     <input type="hidden" class="form-control" value="1">
 
@@ -21,7 +21,7 @@
                             type="text"
                             id="post_title"
                             class="form-control"
-                            value="Lorem ipsum dolor sit amet"
+                            value="<%= article.title %>"
                             required
                         >
                     </div>
@@ -29,28 +29,31 @@
                     <div class="form-group">
                         <label for="post_desc">Description</label>
                         <textarea
-                            id="post_desc"
+                            id="summernote"
                             class="form-control"
                             rows="5"
                             required
-                        >Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation</textarea>
+                        ><%= article.content %></textarea>
                     </div>
 
                     <div class="form-group">
                         <label for="category">Category</label>
                         <select id="category" class="form-control" required>
-                            <option>HTML</option>
-                            <option>CSS</option>
-                            <option>JavaScript</option>
-                            <option>Python</option>
+                            <% categories.forEach(category => { %>
+                                <% if(article.category.id == category._id) { %>
+                                    <% } else { %>
+                                <option value="<%= category._id %>" selected><%= category.name %></option>
+                                <% } %>
+                                <% });%>
                         </select>
                     </div>
 
                     <div class="form-group">
-                        <label>Post Image</label>
+                        <label  class="form-label">Post Image</label><br>
+                         <img src="/uploads/<%= article.image %>" alt="Article Image" style="width: 100px; height: 100px; margin-bottom: 10px; border: 3px solid #3f79ff;">
                         <input type="file" class="form-control">
                         <br>
-                        <img src="upload/post_1.jpg" height="150" alt="Post Image">
+                       
                     </div>
 
                     <input type="submit" class="btn btn-primary" value="Update">
@@ -63,3 +66,22 @@
     </div>
 </div>
 
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.20/dist/summernote-lite.min.js"></script>
+<script>
+  $(document).ready(function () {
+    $('#summernote').summernote({
+      placeholder: 'Start typing...',
+      tabsize: 2,
+      height: 200
+    });
+  });
+
+</script>
+
+
+
+
+<%- contentFor("summernoteCSS") %>
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.20/dist/summernote-lite.min.css" rel="stylesheet">

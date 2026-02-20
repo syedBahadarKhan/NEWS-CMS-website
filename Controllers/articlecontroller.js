@@ -36,8 +36,23 @@ const addArticle = async (req, res) => {
     }
 }
 const editArticlePage = async (req, res) => {
-    res.render('admin/articles/update', {role: req.role});
+    const id = req.params.id;
+    try{
+       const article = await articleModel.findById(id)
+                                              .populate("category", "name")
+                                                .populate("author", "fullname");
+       if(!article){
+        return res.status(404).send("Article not found");
+       }
+       const categories = await categoryModel.find();
+       res.render('admin/articles/update', {role: req.role, article, categories});
+    }catch(error){
+        console.log(error)
+        res.status(500).send("Server Error")
+
+    }
 }
+
 const updateArticle = async (req, res) => {}
 const deleteArticle = async (req, res) => {}
 
