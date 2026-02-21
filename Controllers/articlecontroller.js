@@ -6,9 +6,16 @@ import categoryModel from '../Models/category.js';
 //function for all the article routes
 const allarticle = async (req, res) => {
     try{
-        const articles = await articleModel.find()
+        let articles;
+        if(req.role === "admin"){
+         articles = await articleModel.find()
                                                 .populate("category", "name")
                                                 .populate("author", "fullname");
+        }else{
+         articles = await articleModel.find({author: req.id})
+                                                .populate("category", "name")
+                                                .populate("author", "fullname");   
+        }                                       
         res.render('admin/articles', {role: req.role, articles});
     }catch(error){
        console.log(error);
