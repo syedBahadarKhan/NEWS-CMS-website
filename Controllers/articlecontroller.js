@@ -1,3 +1,4 @@
+import article from '../Models/article.js';
 import articleModel from '../Models/article.js';
 import categoryModel from '../Models/category.js';
 
@@ -76,7 +77,20 @@ const updateArticle = async (req, res) => {
 }
 
 
-const deleteArticle = async (req, res) => {}
+const deleteArticle = async (req, res) => {
+    const id = req.params.id;
+    try{
+        const article = await articleModel.findByIdAndDelete(id);
+        if(!article){
+            return res.status(404).send("Article not found");
+        }
+        res.json({success: true})
+    }catch(error){
+       console.log(error)
+       res.status(500).send("Server Error")
+    }
+
+}
 
 
 
