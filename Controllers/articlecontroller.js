@@ -52,6 +52,13 @@ const editArticlePage = async (req, res) => {
        if(!article){
         return res.status(404).send("Article not found");
        }
+
+        if(req.role === "author"){
+            if(req.id != article.author._id){
+                return res.status(403).send("Unauthorized Access")
+            }
+        }
+
        const categories = await categoryModel.find();
        res.render('admin/articles/update', {role: req.role, article, categories});
     }catch(error){
@@ -75,6 +82,13 @@ const updateArticle = async (req, res) => {
         if(req.file){
             article.image = req.file.filename;
         }
+
+         if(req.role === "author"){
+            if(req.id != article.author._id){
+                return res.status(403).send("Unauthorized Access")
+            }
+        }
+
         await article.save();
         res.redirect("/admin/article")
     }catch(error){
@@ -87,10 +101,16 @@ const updateArticle = async (req, res) => {
 const deleteArticle = async (req, res) => {
     const id = req.params.id;
     try{
-        const article = await articleModel.findByIdAndDelete(id);
+        const article = await articleModel.findById(id);
         if(!article){
             return res.status(404).send("Article not found");
         }
+         if(req.role === "author"){
+            if(req.id != article.author._id){
+                return res.status(403).send("Unauthorized Access")
+            }
+        }
+        await article.deleteOne()
         res.json({success: true})
     }catch(error){
        console.log(error)
