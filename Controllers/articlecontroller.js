@@ -53,7 +53,29 @@ const editArticlePage = async (req, res) => {
     }
 }
 
-const updateArticle = async (req, res) => {}
+const updateArticle = async (req, res) => {
+    const id = req.params.id;
+    try{
+        const {title, content, category} = req.body;
+        const article = await articleModel.findById(id);
+        if(!article){
+            return res.status(404).send("Article not found")
+        }
+        article.title = title;
+        article.content = content;
+        article.category = category;
+        if(req.file){
+            article.image = req.file.filename;
+        }
+        await article.save();
+        res.redirect("/admin/article")
+    }catch(error){
+        console.log(error);
+        res.status(500).send(error.message)
+    }
+}
+
+
 const deleteArticle = async (req, res) => {}
 
 
