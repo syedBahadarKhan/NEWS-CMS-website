@@ -1,7 +1,11 @@
 import article from '../Models/article.js';
 import articleModel from '../Models/article.js';
 import categoryModel from '../Models/category.js';
-
+import path from "path";
+import { fileURLToPath } from "url";
+import fs from "fs";
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 //function for all the article routes
 const allarticle = async (req, res) => {
@@ -79,9 +83,15 @@ const updateArticle = async (req, res) => {
         article.title = title;
         article.content = content;
         article.category = category;
-        if(req.file){
-            article.image = req.file.filename;
-        }
+      if (req.file) {
+                    const imagePath = path.join(__dirname, "../public/uploads", article.image);
+
+                    if (fs.existsSync(imagePath)) {
+                        await fs.promises.unlink(imagePath);
+                    }
+
+                       article.image = req.file.filename;
+                }
 
          if(req.role === "author"){
             if(req.id != article.author._id){
@@ -110,6 +120,15 @@ const deleteArticle = async (req, res) => {
                 return res.status(403).send("Unauthorized Access")
             }
         }
+          try{
+            const imagePath = path.join(__dirname, "../public/uploads", article.image);
+            if (fs.existsSync(imagePath)) {
+                await fs.promises.unlink(imagePath);
+                }
+            }catch(error){
+                console.log("Error deleting message", error)
+            }
+        
         await article.deleteOne()
         res.json({success: true})
     }catch(error){
