@@ -3,7 +3,8 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import Post from '../Models/News.js';
-import Category from '../Models/category.js';
+import articleModel from "../Models/article.js"
+import CategoryModel from '../Models/category.js';
 import Comment from '../Models/comment.js';
 
 dotenv.config();
@@ -48,7 +49,22 @@ const logout = async (req, res) => {
 // import { use } from 'react';
 
 const dashboard = async (req, res) => {
-    res.render('admin/Dashboard', {role: req.role, fullname : req.fullname });
+    try{
+        const articleCount = await articleModel.countDocuments();
+        const categoryCount = await CategoryModel.countDocuments()
+        const userCount = await userModel.countDocuments()
+        res.render('admin/Dashboard',
+             {role: req.role,
+              fullname : req.fullname,
+              articleCount,
+              categoryCount,
+              userCount
+             });
+    }catch(error){
+        console.log(error)
+        res.status(500).send("Internal server Error")
+    }
+
 };
 
 
