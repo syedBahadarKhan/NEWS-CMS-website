@@ -10,8 +10,8 @@
               <div class="col-md-3" >
                   <div class="admin-block" style="background-color: #CFE2FF; padding: 10px;">
                     <i class="fa fa-file-text"></i>
-                    <h4><%= articleCount %></h4>
-                    <h1>10</h1>
+                    <h4>Articles</h4>
+                    <h1><%= articleCount %></h1>
                   </div>
               </div>
               <div class="col-md-3">
@@ -21,6 +21,7 @@
                     <h1><%=  categoryCount %></h1>
                   </div>
               </div>
+              <% if (role === "admin") {%>
               <div class="col-md-3">
                   <div class="admin-block" style="background-color: #b2eedc; padding: 10px; ">
                     <i class="fa fa-users"></i>
@@ -28,6 +29,7 @@
                     <h1><%= userCount %><h1>
                   </div>
               </div>
+              <% } %>
           </div>
       </div>
   </div>

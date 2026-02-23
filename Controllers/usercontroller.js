@@ -6,6 +6,7 @@ import Post from '../Models/News.js';
 import articleModel from "../Models/article.js"
 import CategoryModel from '../Models/category.js';
 import Comment from '../Models/comment.js';
+import settingModel from "../Models/setting.js"
 
 dotenv.config();
 
@@ -50,7 +51,13 @@ const logout = async (req, res) => {
 
 const dashboard = async (req, res) => {
     try{
-        const articleCount = await articleModel.countDocuments();
+        let articleCount;
+        if(req.role==="author"){
+             articleCount = await articleModel.countDocuments({author: req.id});
+        }else{
+             articleCount = await articleModel.countDocuments();
+        }
+
         const categoryCount = await CategoryModel.countDocuments()
         const userCount = await userModel.countDocuments()
         res.render('admin/Dashboard',
@@ -84,6 +91,23 @@ const addUser = async (req, res) => {
 }
 const settings = async (req, res) =>{
     res.render('admin/setting', {role: req.role});
+}
+
+const saveSettings = async(req, res) =>{
+    const {website_title, footer_description} = req.body;
+    const website_logo = req.file ? req.file.filename : null;
+
+    try{
+        const settings = await settingModel.findOneAndUpdate(
+            {},
+            {website_title, website_logo, footer_description},
+            {new: true, upsert : true }
+        );
+        res.redirect('/admin/setting')
+    } catch(error){
+        console.error(error)
+        res.status(500).send("internal Server Error")
+    }
 }
 
 const editUserPage = async (req, res) => {
@@ -152,5 +176,6 @@ export default {
     editUserPage,
     updateUser,
     deleteUser,
-    settings
+    settings,
+    saveSettings
 }

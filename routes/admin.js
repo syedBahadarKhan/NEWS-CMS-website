@@ -15,6 +15,7 @@ router.post('/index', usercontroller.adminLogin);
 router.get("/logout", usercontroller.logout)
 router.get("/dashboard", isLoggedIn, usercontroller.dashboard)
 router.get("/settings", isLoggedIn, isAdmin, usercontroller.settings)
+router.post("/save-setting",  isLoggedIn, isAdmin, upload.single("website_logo"),  usercontroller.saveSettings)
 
 
 // user crud routes
