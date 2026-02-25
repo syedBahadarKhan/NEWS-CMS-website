@@ -8,7 +8,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 //function for all the article routes
-const allarticle = async (req, res) => {
+const allarticle = async (req, res, next) => {
     try{
         let articles;
         if(req.role === "admin"){
@@ -22,15 +22,16 @@ const allarticle = async (req, res) => {
         }                                       
         res.render('admin/articles', {role: req.role, articles});
     }catch(error){
-       console.log(error);
-    res.status(500).send(error.message);
+    //    console.log(error);
+    // res.status(500).send(error.message);
+    next(error)
     }
 }
 const addArticlePage = async (req, res) => {
     const categories = await categoryModel.find();
     res.render('admin/articles/create', {role: req.role, categories});
 }
-const addArticle = async (req, res) => {
+const addArticle = async (req, res, next) => {
     const { title, content, category } = req.body;
     try{
     const article = new articleModel({
@@ -43,11 +44,12 @@ const addArticle = async (req, res) => {
     await article.save();
     res.redirect("/admin/article", {role:req.role} )
     }catch(error){
-        console.log(error);
-        res.status(500).send("Server Error")
+        // console.log(error);
+        // res.status(500).send("Server Error")
+        next(error)
     }
 }
-const editArticlePage = async (req, res) => {
+const editArticlePage = async (req, res, next) => {
     const id = req.params.id;
     try{
        const article = await articleModel.findById(id)
@@ -66,13 +68,14 @@ const editArticlePage = async (req, res) => {
        const categories = await categoryModel.find();
        res.render('admin/articles/update', {role: req.role, article, categories});
     }catch(error){
-        console.log(error)
-        res.status(500).send("Server Error")
+        // console.log(error)
+        // res.status(500).send("Server Error")
+        next(error)
 
     }
 }
 
-const updateArticle = async (req, res) => {
+const updateArticle = async (req, res, next) => {
     const id = req.params.id;
     try{
         const {title, content, category} = req.body;
@@ -102,13 +105,14 @@ const updateArticle = async (req, res) => {
         await article.save();
         res.redirect("/admin/article", {role:req.role})
     }catch(error){
-        console.log(error);
-        res.status(500).send(error.message)
+        // console.log(error);
+        // res.status(500).send(error.message)
+        next(error)
     }
 }
 
 
-const deleteArticle = async (req, res) => {
+const deleteArticle = async (req, res, next) => {
     const id = req.params.id;
     try{
         const article = await articleModel.findById(id);
@@ -132,8 +136,9 @@ const deleteArticle = async (req, res) => {
         await article.deleteOne()
         res.json({success: true})
     }catch(error){
-       console.log(error)
-       res.status(500).send("Server Error")
+    //    console.log(error)
+    //    res.status(500).send("Server Error")
+    next(error)
     }
 
 }

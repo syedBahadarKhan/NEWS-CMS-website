@@ -12,13 +12,13 @@ const addCategoryPage = async (req, res) => {
 }
 
 
-const addCategory = async (req, res) => {
+const addCategory = async (req, res, next) => {
     console.log("BODY:", req.body);
     try{
         await categoryModel.create(req.body)
         res.redirect('/admin/category')
     } catch(error){
-        res.status(400).send(error)
+       next(error)
     }
 }
 
@@ -26,7 +26,7 @@ const addCategory = async (req, res) => {
 
 
 
-const updateCategoryPage = async (req, res) => {
+const updateCategoryPage = async (req, res, next) => {
     const id =  req.params.id;
  try{
    const category  = await categoryModel.findById(id);
@@ -35,12 +35,13 @@ const updateCategoryPage = async (req, res) => {
    }
    res.render('admin/categories/update', {category, role: req.role})
     }catch(error){
-         res.status(400).send(error)
+        //  res.status(400).send(error)
+        next(error)
     }
    
 }
 
-const updateCategory = async (req, res) => {
+const updateCategory = async (req, res, next) => {
    const id = req.params.id;
    try{
        const category = await categoryModel.findByIdAndUpdate(id, req.body)
@@ -49,12 +50,13 @@ const updateCategory = async (req, res) => {
        }
        res.redirect('/admin/category')
    }catch(error){
-     res.status(400).send(error)
+    //  res.status(400).send(error)
+    next(error)
    }
 } 
 
 
-const deleteCategory = async (req, res) => {
+const deleteCategory = async (req, res, next) => {
     const id = req.params.id;
     try{
         const category = await categoryModel.findByIdAndDelete(id)
@@ -63,7 +65,8 @@ const deleteCategory = async (req, res) => {
         }        
         res.json({success:true})
     }catch(error){
-        res.status(400).send(error)
+        // res.status(400).send(error)
+        next(error)
     }
 }
 

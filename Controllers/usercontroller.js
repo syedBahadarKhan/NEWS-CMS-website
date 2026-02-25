@@ -49,7 +49,7 @@ const logout = async (req, res) => {
 
 // import { use } from 'react';
 
-const dashboard = async (req, res) => {
+const dashboard = async (req, res, next) => {
     try{
         let articleCount;
         if(req.role==="author"){
@@ -68,8 +68,9 @@ const dashboard = async (req, res) => {
               userCount
              });
     }catch(error){
-        console.log(error)
-        res.status(500).send("Internal server Error")
+        // console.log(error)
+        // res.status(500).send("Internal server Error")
+        next(error)
     }
 
 };
@@ -89,19 +90,20 @@ const addUser = async (req, res) => {
     await userModel.create(req.body)
     res.redirect('/admin/users');
 }
-const settings = async (req, res) =>{
+const settings = async (req, res, next) =>{
     try{
      const settings = await settingModel.findOne()
      res.render('admin/setting', {role: req.role, settings});
     }catch(error){
-       console.error(error)
-       res.status(500).send("internal server error")
+    //    console.error(error)
+    //    res.status(500).send("internal server error")
+    next(error)
     }
     
 }
 
 
-const saveSettings = async(req, res) =>{
+const saveSettings = async(req, res, next) =>{
     const {website_title, footer_description} = req.body;
     const website_logo = req.file ? req.file.filename : null;
 
@@ -113,12 +115,13 @@ const saveSettings = async(req, res) =>{
         );
         res.redirect('/admin/settings')
     } catch(error){
-        console.error(error)
-        res.status(500).send("internal Server Error")
+        // console.error(error)
+        // res.status(500).send("internal Server Error")
+        next(error)
     }
 }
 
-const editUserPage = async (req, res) => {
+const editUserPage = async (req, res, next) => {
     const id = req.params.id;
     try{
      const user = await userModel.findById(id);
@@ -127,14 +130,15 @@ const editUserPage = async (req, res) => {
      }
      res.render('admin/users/update', {user, role: req.role});
     }catch(error){
-        console.log(err);
-        res.status(500).send("internal server error");
+        // console.log(err);
+        // res.status(500).send("internal server error");
+        next(error)
     }
 }
 
 
 // this is the post Route for updating the user
-const updateUser = async (req, res) => {
+const updateUser = async (req, res, next) => {
     const id = req.params.id;
     const {fullname, password, role} = req.body;
     try{
@@ -150,15 +154,16 @@ const updateUser = async (req, res) => {
         await user.save()
         res.redirect("/admin/users", {role: req.role});
     }catch(error){
-        console.error(error);
-        res.status(500).send("Internal Server Error");
+        // console.error(error);
+        // res.status(500).send("Internal Server Error");
+        next(error)
     }
 }
 
 
 
 
-const deleteUser = async (req, res) => {
+const deleteUser = async (req, res, next) => {
     const id = req.params.id;
     try{
         const user = await userModel.findByIdAndDelete(id);
@@ -166,9 +171,8 @@ const deleteUser = async (req, res) => {
             return res.status(404).send("user not found")
         }
         res.json({success:true});
-    }catch(erroor){
-      console.error(error);
-      res.status(500).send("Internal Server Error");
+    }catch(error){
+    next(error)
     }
 }
 

@@ -50,9 +50,19 @@ router.get("/comments", isLoggedIn, commentcontroller.allComments);
 
 
 // 404 Middleware
-router.use((req, res, next) =>{
+router.use(isLoggedIn, (req, res, next) =>{
     res.status(404).render('admin/404', {
         message:"Page not Found",
+        role: req.role
+    })
+})
+
+
+//500 error handler middleware
+router.use(isLoggedIn, (err, req, res, next) =>{
+    console.error(err.stack);
+    res.status(500).render("admin/505", {
+        message: err.message || "Internal Server Error",
         role: req.role
     })
 })
