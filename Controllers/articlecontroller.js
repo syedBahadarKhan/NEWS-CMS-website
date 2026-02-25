@@ -41,7 +41,7 @@ const addArticle = async (req, res) => {
         image:req.file.filename
     })
     await article.save();
-    res.redirect("/admin/article")
+    res.redirect("/admin/article", {role:req.role} )
     }catch(error){
         console.log(error);
         res.status(500).send("Server Error")
@@ -100,7 +100,7 @@ const updateArticle = async (req, res) => {
         }
 
         await article.save();
-        res.redirect("/admin/article")
+        res.redirect("/admin/article", {role:req.role})
     }catch(error){
         console.log(error);
         res.status(500).send(error.message)

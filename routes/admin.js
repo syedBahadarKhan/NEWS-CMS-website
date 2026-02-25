@@ -49,4 +49,13 @@ router.delete("/delete-article/:id", isLoggedIn,  articlecontroller.deleteArticl
 router.get("/comments", isLoggedIn, commentcontroller.allComments);
 
 
+// 404 Middleware
+router.use((req, res, next) =>{
+    res.status(404).render('admin/404', {
+        message:"Page not Found",
+        role: req.role
+    })
+})
+
+
 export default router;
