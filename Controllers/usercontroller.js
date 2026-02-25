@@ -90,8 +90,16 @@ const addUser = async (req, res) => {
     res.redirect('/admin/users');
 }
 const settings = async (req, res) =>{
-    res.render('admin/setting', {role: req.role});
+    try{
+     const settings = await settingModel.findOne()
+     res.render('admin/setting', {role: req.role, settings});
+    }catch(error){
+       console.error(error)
+       res.status(500).send("internal server error")
+    }
+    
 }
+
 
 const saveSettings = async(req, res) =>{
     const {website_title, footer_description} = req.body;
@@ -103,7 +111,7 @@ const saveSettings = async(req, res) =>{
             {website_title, website_logo, footer_description},
             {new: true, upsert : true }
         );
-        res.redirect('/admin/setting')
+        res.redirect('/admin/settings')
     } catch(error){
         console.error(error)
         res.status(500).send("internal Server Error")
