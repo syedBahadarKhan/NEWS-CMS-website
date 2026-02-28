@@ -1,12 +1,14 @@
 import userModel from '../Models/user.js';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+import {validationResult} from "express-validator"
 import dotenv from 'dotenv';
 import Post from '../Models/News.js';
 import articleModel from "../Models/article.js"
 import CategoryModel from '../Models/category.js';
 import Comment from '../Models/comment.js';
 import settingModel from "../Models/setting.js"
+import createError from '../utilities/error-message.js';
 
 dotenv.config();
 
@@ -15,19 +17,30 @@ dotenv.config();
 // Login function
 const loginPage = async (req, res) => {
     res.render('admin/login',{
-        layout:false
+        layout:false,
+        errors: 0
     });
 }
 const adminLogin = async (req, res) => {
+    const errors = validationResult(req);
+    if(!errors.isEmpty()){
+        // return res.status(400).json({errors: errors.array() })
+       return  res.render('admin/login',{
+        layout:false,
+        errors: errors.array()
+    });
+    }
+
+
   const {username, password} = req.body;
   try{
     const user = await userModel.findOne({ username });
     if(!user){
-        return res.status(401).send("invalid username or password");
+       return next(createError("invalid username or password", 401))
     }
     const isMatch = await bcrypt.compare(password, user.password);
     if(!isMatch){
-        return res.status(401).send("invalid username or password");
+        return next(createError("invalid username or password", 401));
     }
     const jwtData = {id:user._id, fullname:user.fullname, role:user.role};
     const token = jwt.sign(jwtData, process.env.JWT_SECRET, {expiresIn: '1h'});
@@ -126,7 +139,8 @@ const editUserPage = async (req, res, next) => {
     try{
      const user = await userModel.findById(id);
      if(!user){
-        return res.status(404).send("User not Found")
+        // return res.status(404).send("User not Found")
+         return next(createError("User Not Found", 404))
      }
      res.render('admin/users/update', {user, role: req.role});
     }catch(error){
@@ -144,7 +158,8 @@ const updateUser = async (req, res, next) => {
     try{
         const user = await userModel.findById(id)
         if(!user){
-            return res.status(404).send("User not Found")
+            // return res.status(404).send("User not Found")
+                    return next(createError("User Not Found", 404))
         }
         user.fullname = fullname || user.fullname;
         if(password){
@@ -168,7 +183,8 @@ const deleteUser = async (req, res, next) => {
     try{
         const user = await userModel.findByIdAndDelete(id);
         if(!user){
-            return res.status(404).send("user not found")
+            // return res.status(404).send("user not found")
+                    return next(createError("User Not Found", 404))
         }
         res.json({success:true});
     }catch(error){

@@ -61,7 +61,7 @@
         title: "Actions",
         formatter: function (cell, formatterParams, onRendered) {
           return `
-            <a href="/admin/update-category${cell.getData()._id}" class="btn btn-sm btn-success">Edit</a>
+            <a href="/admin/update-category/${cell.getData()._id}" class="btn btn-sm btn-success">Edit</a>
             <button class="btn btn-sm btn-danger"
               onclick="deleteCategory('${cell.getData()._id}')">Delete</button>
           `;

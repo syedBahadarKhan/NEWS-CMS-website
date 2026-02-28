@@ -1,5 +1,5 @@
 import categoryModel from '../Models/category.js';
-
+import createError from '../utilities/error-message.js';
 // functions for all the category routes
 const allcategory = async (req, res) => {
     const categories = await categoryModel.find();
@@ -31,7 +31,7 @@ const updateCategoryPage = async (req, res, next) => {
  try{
    const category  = await categoryModel.findById(id);
    if(!category){
-    return res.status(404).send("category not found")
+    return next(createError("category Not Found", 404))
    }
    res.render('admin/categories/update', {category, role: req.role})
     }catch(error){
@@ -46,7 +46,7 @@ const updateCategory = async (req, res, next) => {
    try{
        const category = await categoryModel.findByIdAndUpdate(id, req.body)
        if(!category){
-        return res.status(404).send("category not found")
+                return next(createError("category Not Found", 404))
        }
        res.redirect('/admin/category')
    }catch(error){
@@ -61,7 +61,7 @@ const deleteCategory = async (req, res, next) => {
     try{
         const category = await categoryModel.findByIdAndDelete(id)
         if(!category){
-            return res.status(404).send("category not found")
+            return next(createError("category Not Found", 404))
         }        
         res.json({success:true})
     }catch(error){

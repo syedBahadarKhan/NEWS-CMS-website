@@ -1,17 +1,18 @@
 import express from "express"
 const router = express.Router();
-import articlecontroller from "../controllers/articlecontroller.js";
+import articlecontroller from "../Controllers/articlecontroller.js";
 import categorycontroller from "../controllers/categorycontroller.js";
 import commentcontroller from "../controllers/commentcontroller.js";
 import usercontroller from "../controllers/usercontroller.js";
 import isLoggedIn from "../middlewares/isLoggedin.js";
 import isAdmin from "../middlewares/isAdmin.js";
 import upload from "../middlewares/multer.js";
+import { loginValidation } from "../middlewares/validator.js";
 
 
 //Admin Login Route
 router.get("/", usercontroller.loginPage);
-router.post('/index', usercontroller.adminLogin);
+router.post('/index', loginValidation, usercontroller.adminLogin);
 router.get("/logout", usercontroller.logout)
 router.get("/dashboard", isLoggedIn, usercontroller.dashboard)
 router.get("/settings", isLoggedIn, isAdmin, usercontroller.settings)
@@ -61,11 +62,35 @@ router.use(isLoggedIn, (req, res, next) =>{
 //500 error handler middleware
 router.use(isLoggedIn, (err, req, res, next) =>{
     console.error(err.stack);
-    res.status(500).render("admin/505", {
+    const status = err.status || 500;
+    let view;
+   switch (status) {
+    case 401:
+        view = "admin/401";
+        break;
+    case 404:
+        view = "admin/404";
+        break;
+    case 500:
+        view = "admin/500";
+        break;
+    default:
+        view = "admin/500";        
+   }
+    res.status(500).render(view, {
         message: err.message || "Internal Server Error",
         role: req.role
     })
 })
+
+
+// router.use(isLoggedIn, (err, req, res, next) =>{
+//     console.error(err.stack);
+//     res.status(500).render("admin/505", {
+//         message: err.message || "Internal Server Error",
+//         role: req.role
+//     })
+// })
 
 
 export default router;

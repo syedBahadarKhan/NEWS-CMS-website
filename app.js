@@ -14,9 +14,6 @@ const router = express.Router();
 dotenv.config()
 
 
-
-
-
 app.use(express.static(path.join(path.dirname(fileURLToPath(import.meta.url)), 'public')));
 app.use(expressLayouts);
 app.use(express.urlencoded({ extended: true }));

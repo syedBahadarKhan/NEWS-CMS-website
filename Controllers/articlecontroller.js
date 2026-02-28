@@ -6,6 +6,7 @@ import { fileURLToPath } from "url";
 import fs from "fs";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+import createError from '../utilities/error-message.js';
 
 //function for all the article routes
 const allarticle = async (req, res, next) => {
@@ -56,12 +57,16 @@ const editArticlePage = async (req, res, next) => {
                                               .populate("category", "name")
                                                 .populate("author", "fullname");
        if(!article){
-        return res.status(404).send("Article not found");
+        // return res.status(404).send("Article not found");
+        //  const error = new Error("Article Not Found");
+        //     error.status = 404;
+        //     return next(error)
+            return next(createError("Article Not Found", 404))
        }
 
         if(req.role === "author"){
             if(req.id != article.author._id){
-                return res.status(403).send("Unauthorized Access")
+                return next(createError("Unauthorized Access", 403))
             }
         }
 
@@ -81,7 +86,8 @@ const updateArticle = async (req, res, next) => {
         const {title, content, category} = req.body;
         const article = await articleModel.findById(id);
         if(!article){
-            return res.status(404).send("Article not found")
+           return next(createError("Article Not Found", 404))
+           
         }
         article.title = title;
         article.content = content;
@@ -98,7 +104,7 @@ const updateArticle = async (req, res, next) => {
 
          if(req.role === "author"){
             if(req.id != article.author._id){
-                return res.status(403).send("Unauthorized Access")
+                return next(createError("Unauthorized Access", 403))
             }
         }
 
@@ -112,16 +118,17 @@ const updateArticle = async (req, res, next) => {
 }
 
 
+
 const deleteArticle = async (req, res, next) => {
     const id = req.params.id;
     try{
         const article = await articleModel.findById(id);
         if(!article){
-            return res.status(404).send("Article not found");
+            return next(createError("Article Not Found", 404));
         }
          if(req.role === "author"){
             if(req.id != article.author._id){
-                return res.status(403).send("Unauthorized Access")
+                return next(createError("Unauthorized Access", 403))
             }
         }
           try{
