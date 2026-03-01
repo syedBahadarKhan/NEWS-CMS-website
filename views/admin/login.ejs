@@ -32,20 +32,11 @@
                                 <button type="submit" class="btn btn-primary">Login</button>
                             </div>
 
-                            <% if(errors && errors.length > 0) { %>
-                              <div class="alert alert-danger mt-2">
-                                <% errors.forEach(error => { %>
-                                    <ul>
-                                    <li><%= error.msg %></li>
-                                    </ul>
-                                  
-                                <% }); %>
-                              </div>
-                            <% } %>
+                           
                           </form>
                           
                           <!-- Error Message -->
-                         
+                          <%- include('partials/error') %> 
                           <!-- /Error Message -->
                         </div>
                     </div>

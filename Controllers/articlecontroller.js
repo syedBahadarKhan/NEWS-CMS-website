@@ -1,6 +1,7 @@
 import article from '../Models/article.js';
 import articleModel from '../Models/article.js';
 import categoryModel from '../Models/category.js';
+import {validationResult} from "express-validator"
 import path from "path";
 import { fileURLToPath } from "url";
 import fs from "fs";
@@ -28,11 +29,26 @@ const allarticle = async (req, res, next) => {
     next(error)
     }
 }
+
+
 const addArticlePage = async (req, res) => {
     const categories = await categoryModel.find();
-    res.render('admin/articles/create', {role: req.role, categories});
+    res.render('admin/articles/create', {role: req.role, categories, errors: 0 });
 }
+
+
 const addArticle = async (req, res, next) => {
+
+    const errors = validationResult(req);
+    if (!errors.isEmpty() ){
+       const categories = await categoryModel.find();
+       return  res.render('admin/articles/create',{
+        role: req.role,
+        categories,
+        errors: errors.array()
+    });
+    }
+
     const { title, content, category } = req.body;
     try{
     const article = new articleModel({
@@ -40,10 +56,11 @@ const addArticle = async (req, res, next) => {
         content,
         category,
         author: req.id,
-        image:req.file.filename
+        image:req.file.filename,
+        role:req.role
     })
     await article.save();
-    res.redirect("/admin/article", {role:req.role} )
+    res.redirect("/admin/article")
     }catch(error){
         // console.log(error);
         // res.status(500).send("Server Error")
@@ -71,7 +88,7 @@ const editArticlePage = async (req, res, next) => {
         }
 
        const categories = await categoryModel.find();
-       res.render('admin/articles/update', {role: req.role, article, categories});
+       res.render('admin/articles/update', {role: req.role, article, categories, errors:0});
     }catch(error){
         // console.log(error)
         // res.status(500).send("Server Error")
@@ -82,6 +99,18 @@ const editArticlePage = async (req, res, next) => {
 
 const updateArticle = async (req, res, next) => {
     const id = req.params.id;
+     
+    const errors = validationResult(req);
+    if (!errors.isEmpty() ){
+       const categories = await categoryModel.find();
+       return  res.render('admin/articles/update',{
+        article:req.body,
+        role: req.role,
+        categories,
+        errors: errors.array()
+    });
+    }
+    
     try{
         const {title, content, category} = req.body;
         const article = await articleModel.findById(id);

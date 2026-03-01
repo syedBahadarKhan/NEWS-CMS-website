@@ -30,8 +30,6 @@ const adminLogin = async (req, res) => {
         errors: errors.array()
     });
     }
-
-
   const {username, password} = req.body;
   try{
     const user = await userModel.findOne({ username });
@@ -96,13 +94,24 @@ const allusers = async (req, res) => {
     res.render('admin/users', {users, role: req.role});
 }
 
+
 const addUserPage = async (req, res) => {
-    res.render('admin/users/create', {role: req.role});
+    res.render('admin/users/create', {role: req.role, errors: 0});
 }
+
 const addUser = async (req, res) => {
+    const errors = validationResult(req);
+    if(!errors.isEmpty()){
+       return  res.render('admin/users/create',{
+        role: req.role,
+        errors: errors.array()
+    });
+    }
     await userModel.create(req.body)
     res.redirect('/admin/users');
 }
+
+
 const settings = async (req, res, next) =>{
     try{
      const settings = await settingModel.findOne()
@@ -142,7 +151,7 @@ const editUserPage = async (req, res, next) => {
         // return res.status(404).send("User not Found")
          return next(createError("User Not Found", 404))
      }
-     res.render('admin/users/update', {user, role: req.role});
+     res.render('admin/users/update', {user, role: req.role, errors: 0});
     }catch(error){
         // console.log(err);
         // res.status(500).send("internal server error");
@@ -154,6 +163,15 @@ const editUserPage = async (req, res, next) => {
 // this is the post Route for updating the user
 const updateUser = async (req, res, next) => {
     const id = req.params.id;
+
+     const errors = validationResult(req);
+    if(!errors.isEmpty()){
+       return  res.render('admin/users/update',{
+        user: req.body,
+        role: req.role,
+        errors: errors.array()
+    });
+    }
     const {fullname, password, role} = req.body;
     try{
         const user = await userModel.findById(id)
