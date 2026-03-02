@@ -1,6 +1,7 @@
 import categoryModel from '../Models/category.js';
 import createError from '../utilities/error-message.js';
 import {validationResult} from "express-validator"
+import articleModel from '../Models/article.js';
 // functions for all the category routes
 const allcategory = async (req, res) => {
     const categories = await categoryModel.find();
@@ -50,7 +51,7 @@ const updateCategoryPage = async (req, res, next) => {
 
 const updateCategory = async (req, res, next) => {
    const id = req.params.id;
-   
+
    const errors = validationResult(req);
         if(!errors.isEmpty()){
            const category  = await categoryModel.findById(id);
@@ -61,10 +62,14 @@ const updateCategory = async (req, res, next) => {
         });
     }
    try{
-       const category = await categoryModel.findByIdAndUpdate(id, req.body)
+       const category = await categoryModel.findById(id)
        if(!category){
                 return next(createError("category Not Found", 404))
        }
+       category.name = req.body.name
+       category.description = req.body.description
+
+       await category.save();
        res.redirect('/admin/category')
    }catch(error){
     //  res.status(400).send(error)
@@ -76,10 +81,16 @@ const updateCategory = async (req, res, next) => {
 const deleteCategory = async (req, res, next) => {
     const id = req.params.id;
     try{
-        const category = await categoryModel.findByIdAndDelete(id)
+        const category = await categoryModel.findById(id)
         if(!category){
             return next(createError("category Not Found", 404))
-        }        
+        } 
+        const article = await articleModel.findOne({category:id})
+        if(article){
+            return res.status(400).json({success:false, message:"category is associated with articles"})
+        }
+        
+        await category.deleteOne();
         res.json({success:true})
     }catch(error){
         // res.status(400).send(error)

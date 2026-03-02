@@ -9,6 +9,8 @@ import CategoryModel from '../Models/category.js';
 import Comment from '../Models/comment.js';
 import settingModel from "../Models/setting.js"
 import createError from '../utilities/error-message.js';
+// import settingModel from '../Models/setting.js';
+import fs from 'fs';
 
 dotenv.config();
 
@@ -130,11 +132,23 @@ const saveSettings = async(req, res, next) =>{
     const website_logo = req.file ? req.file.filename : null;
 
     try{
-        const settings = await settingModel.findOneAndUpdate(
-            {},
-            {website_title, website_logo, footer_description},
-            {new: true, upsert : true }
-        );
+        const settings = await settingModel.findOne();
+        if(!settings){
+            settings = new settingModel()
+        }
+        settings.website_title = website_title;
+        settings.footer_description = footer_description;
+
+        if(website_logo){
+            if(settings.website_logo){
+                const logoPath = `public/uploads/${settings.website_logo}`;
+                if(fs.existsSync(logoPath)){
+                    fs.unlinkSync(logoPath);
+            }
+        }
+            settings.website_logo = website_logo;
+        }
+        await settings.save();
         res.redirect('/admin/settings')
     } catch(error){
         // console.error(error)
@@ -199,11 +213,15 @@ const updateUser = async (req, res, next) => {
 const deleteUser = async (req, res, next) => {
     const id = req.params.id;
     try{
-        const user = await userModel.findByIdAndDelete(id);
+        const user = await userModel.findById(id);
         if(!user){
-            // return res.status(404).send("user not found")
-                    return next(createError("User Not Found", 404))
+              return next(createError("User Not Found", 404))
         }
+        const article = await articleModel.findOne({author:id})
+        if(article){
+            return res.status(400).json({success:false, message:"user is associated with articles"})
+        }
+        await user.deleteOne();
         res.json({success:true});
     }catch(error){
     next(error)
