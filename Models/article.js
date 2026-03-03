@@ -28,7 +28,7 @@ const articleSchema = new mongoose.Schema({
         required:true
     },
 
-    craetedAt:{
+    createdAt:{
         type:Date,
         default:Date.now
     }

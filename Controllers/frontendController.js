@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 //Im importing the models here which is inside the Models folder
 
 import categoryModel from '../Models/category.js';
-import newsModel from '../Models/News.js';
+import articleModel from '../Models/article.js';
 import commentModel from '../Models/comment.js';
 import userModel from '../Models/user.js';
 
@@ -11,7 +11,12 @@ import userModel from '../Models/user.js';
 
 //Functions for all the routes
 const index = async (req, res) => {
-    res.render('index');
+    const  articles = await articleModel.find()
+                                     .populate('category', {'name':1, 'slug':1})
+                                     .populate('author', {'fullname':1})
+                                    .sort({createdAt:-1})
+  
+    res.render('index', {articles});
 }
 
 const articlesByCategory = async (req, res) => {

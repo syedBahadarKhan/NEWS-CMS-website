@@ -138,7 +138,7 @@ const updateArticle = async (req, res, next) => {
         }
 
         await article.save();
-        res.redirect("/admin/article", {role:req.role})
+        res.redirect("/admin/article")
     }catch(error){
         // console.log(error);
         // res.status(500).send(error.message)

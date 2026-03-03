@@ -390,6 +390,8 @@ i.fa{
 }
 
 /* Sidebar Styling */
+
+
 #sidebar h4{
   color: #1A1A1A;
   font-size: 17px;
@@ -399,13 +401,19 @@ i.fa{
   padding: 0 0 0 5px;
   margin: 0 0 21px;
   border-left: 3px solid var(--main-color);
+  
 }
 
+
+
 #sidebar .search-box-container{
+
   background-color: #fff;
+  width: 400px;
   padding: 20px;
   margin: 0 0 30px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.13);
+
 }
 
 #sidebar .search-post{
@@ -441,6 +449,7 @@ i.fa{
 }
 
 #sidebar .recent-post-container{
+  width: 400px;
   padding: 20px;
   background: #fff;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.13);
@@ -453,7 +462,7 @@ i.fa{
 }
 
 #sidebar .recent-post:last-child{
-  margin: 0;
+  margin: 10px 0 0;
   padding: 0;
   border: none;
 }

@@ -3,7 +3,6 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import {validationResult} from "express-validator"
 import dotenv from 'dotenv';
-import Post from '../Models/News.js';
 import articleModel from "../Models/article.js"
 import CategoryModel from '../Models/category.js';
 import Comment from '../Models/comment.js';
