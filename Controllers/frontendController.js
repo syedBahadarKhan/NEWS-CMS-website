@@ -25,7 +25,11 @@ const articlesByCategory = async (req, res) => {
     const category = await categoryModel.findOne({slug: req.params.name});
     if (!category){
      return res.status(404).send("Category not found");
+
     }
+    const articles = await articleModel.find({category: category._id})
+     .populate('category',{name:1,slug:1})
+     .populate('author',{fullname:1})
                               
     res.render('category' , {articles, category});
 }
