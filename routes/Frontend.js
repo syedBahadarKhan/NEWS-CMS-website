@@ -1,8 +1,10 @@
 import express from "express"
 const router = express.Router();
 import frontendController from "../Controllers/frontendController.js";
+import LoadComonData from "../middlewares/loadCommonData.js";
 
-
+// Apply the middleware to all routes in this router
+router.use(LoadComonData);
 router.get("/", frontendController.index);
 router.get("/category/:name", frontendController.articlesByCategory);
 router.get("/single/:id", frontendController.singleArticle);

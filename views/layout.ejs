@@ -7,7 +7,14 @@
     <!-- Your CSS -->
 
   <link rel="stylesheet" href="/css/style.css">
-    <title>News</title>
+    <title>
+
+        <% if(settings.website_title && settings.website_title !== '') { %>
+              <%= settings.website_title %>
+                <% } else { %>
+                    NEWS
+                <% } %>
+    </title>
 
     <!-- Bootstrap -->
 <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -22,9 +29,11 @@
         <div class="row">
             <!-- LOGO -->
             <div class="col-md-offset-4 col-md-4">
-                <a href="/" id="logo">
-                    <img src="images/news.jpg" alt="News Logo">
-                </a>
+               <% if(settings.website_logo && settings.website_logo !== '') { %>
+                <a href="/" id="logo"><img src="/uploads/<%= settings.website_logo %>" alt="News Logo" style=" background:transparent; width:80px; height:60px; display:block; "></a>
+                <% } else { %>
+                    <a href="/" id="logo"><%= settings.website_name || 'News CMS' %></a>
+                <% } %>
             </div>
             <!-- /LOGO -->
         </div>
@@ -52,22 +61,31 @@
 <div id="main-content">
     <div class="container">
         <div class="row">
-          
-
-
             <!-- Main content area -->
-              
             <div class="col-md-8">
                 <%- body %>
             </div>
-
             <!-- Sidebar content -->
             <div class="col-md-4">
                 <%- include('partials/sidebar') %>
             </div>
-
         </div>
     </div>
-</div>
+ </div>
+      <div id ="footer">
+      <div class="container">
+          <div class="row">
+              <div class="col-md-12">
+                <% if(settings.footer_description && settings.footer_description.trim() !== '') { %>
+                  <span><%= settings.footer_description %></span>
+                <% } else { %>
+                  <span>© Copyright 2025 News | Powered by <a href="http://www.Bahadar.com/">Bahadar Ali</a></span>
+                <% } %>
+                  
+              </div>
+          </div>
+      </div>
+  </div>
 </body>
 </html>
+

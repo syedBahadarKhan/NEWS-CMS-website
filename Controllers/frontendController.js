@@ -6,6 +6,7 @@ import categoryModel from '../Models/category.js';
 import articleModel from '../Models/article.js';
 import commentModel from '../Models/comment.js';
 import userModel from '../Models/user.js';
+import settingModel from '../Models/setting.js';
 
 
 
@@ -15,11 +16,9 @@ const index = async (req, res) => {
                                      .populate('category', {'name':1, 'slug':1})
                                      .populate('author', {'fullname':1})
                                     .sort({createdAt:-1})
-
-    const categoriesInUse = await articleModel.distinct('category');
-    const categories = await categoryModel.find({_id: {$in: categoriesInUse}})                                
+                                
     //  res.json({articles, categories})
-        res.render('index', {articles, categories});
+        res.render('index', {articles});
 }
 
 const articlesByCategory = async (req, res) => {
@@ -27,14 +26,8 @@ const articlesByCategory = async (req, res) => {
     if (!category){
      return res.status(404).send("Category not found");
     }
-     const  articles = await articleModel.find({ category: category._id})
-                                     .populate('category', {'name':1, 'slug':1})
-                                     .populate('author', {'fullname':1})
-                                    .sort({createdAt:-1})
-
-    const categoriesInUse = await articleModel.distinct('category');
-    const categories = await categoryModel.find({_id: {$in: categoriesInUse}})                                
-    res.render('category' , {articles, categories, category});
+                              
+    res.render('category' , {articles, category});
 }
 
 
@@ -43,10 +36,8 @@ const singleArticle = async (req, res) => {
                                      .populate('category', {'name':1, 'slug':1})
                                      .populate('author', {'fullname':1})
                                     .sort({createdAt:-1})
-
-    const categoriesInUse = await articleModel.distinct('category');
-    const categories = await categoryModel.find({_id: {$in: categoriesInUse}})                                
-    res.render('single' , {SingleArticles, categories});
+                          
+    res.render('single' , {SingleArticles});
 }
 
 
@@ -62,10 +53,8 @@ const search = async (req, res) => {
             .populate('category', {'name':1, 'slug':1})
             .populate('author', {'fullname':1})
              .sort({createdAt:-1})
-
-    const categoriesInUse = await articleModel.distinct('category');
-    const categories = await categoryModel.find({_id: {$in: categoriesInUse}})                                
-    res.render('search' , {articles, categories, searchQuery: serchQuery});
+                       
+    res.render('search' , {articles,  searchQuery: serchQuery});
 } 
 
 
@@ -73,16 +62,9 @@ const author = async (req, res) => {
     const author = await userModel.findById(req.params.id);
     if(!author){
         return res.status(500).send("author not found")
-    }
-    const  articles = await articleModel.find({author: req.params.id})
-                                     .populate('category', {'name':1, 'slug':1})
-                                     .populate('author', {'fullname':1})
-                                    .sort({createdAt:-1})
-
-    const categoriesInUse = await articleModel.distinct('category');
-    const categories = await categoryModel.find({_id: {$in: categoriesInUse}})                                
-    res.render('author', {articles, categories, author });
-}
+            
+    res.render('author', {articles, author });
+}}
 
 
 
