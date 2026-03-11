@@ -7,18 +7,23 @@ import articleModel from '../Models/article.js';
 import commentModel from '../Models/comment.js';
 import userModel from '../Models/user.js';
 import settingModel from '../Models/setting.js';
+import paginate from "../utilities/paginate.js";
 
 
 
 //Functions for all the routes
 const index = async (req, res) => {
-    const  articles = await articleModel.find()
-                                     .populate('category', {'name':1, 'slug':1})
-                                     .populate('author', {'fullname':1})
-                                    .sort({createdAt:-1})
+    const paginatedArticles = await paginate(articleModel, {}, 
+                                            req.query, {
+                                            populate:[
+                                               {path: 'category', select: 'name slug'},
+                                               {path: 'author', select: 'fullname'}
+                                            ],    
+                                            sort:"-createdAt"})
+
                                 
-    //  res.json({articles, categories})
-        res.render('index', {articles});
+    //  res.json({paginatedArticles})
+        res.render('index', {paginatedArticles});
 }
 
 const articlesByCategory = async (req, res) => {
@@ -27,11 +32,15 @@ const articlesByCategory = async (req, res) => {
      return res.status(404).send("Category not found");
 
     }
-    const articles = await articleModel.find({category: category._id})
-     .populate('category',{name:1,slug:1})
-     .populate('author',{fullname:1})
+    const paginatedArticles = await paginate(articleModel, {category: category._id}, 
+                                            req.query, {
+                                            populate:[
+                                               {path: 'category', select: 'name slug'},
+                                               {path: 'author', select: 'fullname'}
+                                            ],    
+                                            sort:"-createdAt"})
                               
-    res.render('category' , {articles, category});
+    res.render('category' , {paginatedArticles, category, query:req.query});
 }
 
 
@@ -47,18 +56,21 @@ const singleArticle = async (req, res) => {
 
 const search = async (req, res) => {
     const serchQuery = req.query.search
-    const  articles = await articleModel.find({
-        $or:[
-            { title: { $regex: serchQuery, $options: 'i' }},
-            { content: { $regex: serchQuery, $options: 'i' }}
+    const paginatedArticles = await paginate(articleModel, {
+                                    $or:[
+                                        { title: { $regex: serchQuery, $options: 'i' }},
+                                        { content: { $regex: serchQuery, $options: 'i' }}
 
-        ]
-    })
-            .populate('category', {'name':1, 'slug':1})
-            .populate('author', {'fullname':1})
-             .sort({createdAt:-1})
+                                    ]
+                                    }, 
+                                        req.query, {
+                                        populate:[
+                                            {path: 'category', select: 'name slug'},
+                                            {path: 'author', select: 'fullname'}
+                                        ],    
+                                        sort:"-createdAt"})
                        
-    res.render('search' , {articles,  searchQuery: serchQuery});
+    res.render('search' , {paginatedArticles,  searchQuery: serchQuery, query:req.query});
 } 
 
 
@@ -68,11 +80,16 @@ const author = async (req, res) => {
         return res.status(500).send("author not found")
 
     }
-    const articles = await articleModel.find({author: author._id})
-     .populate('category',{name:1,slug:1})
-     .populate('author',{fullname:1})
+     const paginatedArticles = await paginate(articleModel, {author: req.params.id}, 
+                                            req.query, {
+                                            populate:[
+                                               {path: 'category', select: 'name slug'},
+                                               {path: 'author', select: 'fullname'}
+                                            ],    
+                                            sort:"-createdAt"})
+    
             
-    res.render('author', {articles, author });
+    res.render('author', {paginatedArticles, author, query:req.query});
 }
 
 

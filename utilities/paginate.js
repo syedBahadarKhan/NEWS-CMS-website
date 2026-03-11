@@ -12,8 +12,8 @@ const paginate = async(model, query ={}, reqQuery ={}, options = {}) =>{
 
          return{
             data: result.docs,
-            Page: result.page,
-            lastPage: result.lastPage,
+            lastPage: result.totalPages,
+            nextPage: result.nextPage,
             hasnextPage: result.hasNextPage,
             hasPrevPage: result.hasPrevPage,
             currentPage: result.page,
@@ -26,3 +26,6 @@ const paginate = async(model, query ={}, reqQuery ={}, options = {}) =>{
         console.error("Pagination error:", error.message);
     }
 }
+
+
+export default paginate;
