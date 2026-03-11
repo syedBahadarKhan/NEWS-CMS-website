@@ -66,9 +66,14 @@ const author = async (req, res) => {
     const author = await userModel.findById(req.params.id);
     if(!author){
         return res.status(500).send("author not found")
+
+    }
+    const articles = await articleModel.find({author: author._id})
+     .populate('category',{name:1,slug:1})
+     .populate('author',{fullname:1})
             
     res.render('author', {articles, author });
-}}
+}
 
 
 
