@@ -12,7 +12,7 @@ const paginate = async(model, query ={}, reqQuery ={}, options = {}) =>{
 
          return{
             data: result.docs,
-            lastPage: result.totalPages,
+            prevPage: result.prevPage,
             nextPage: result.nextPage,
             hasnextPage: result.hasNextPage,
             hasPrevPage: result.hasPrevPage,
