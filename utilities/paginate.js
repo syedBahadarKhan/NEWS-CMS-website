@@ -1,0 +1,28 @@
+const paginate = async(model, query ={}, reqQuery ={}, options = {}) =>{
+    const {page =1, limit = 2, sort = '-createdAt'} = reqQuery;
+    const paginationOptions = {
+        page :parseInt(page),
+        limit:parseInt(limit),
+        sort,
+        ...options
+    }
+
+    try{
+         const result = await model.paginate(query, paginationOptions )
+
+         return{
+            data: result.docs,
+            Page: result.page,
+            lastPage: result.lastPage,
+            hasnextPage: result.hasNextPage,
+            hasPrevPage: result.hasPrevPage,
+            currentPage: result.page,
+            counter: result.pagingCounter,
+            limit: result.limit,
+            totalDocs: result.totalDocs,
+            totalPages: result.totalPages
+         }
+    }catch(error){
+        console.error("Pagination error:", error.message);
+    }
+}
