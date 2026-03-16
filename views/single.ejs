@@ -32,7 +32,7 @@
       <!-- Comment Form -->
       <div class="card mb-4">
           <div class="card-body">
-              <form action="/single/comment" method="POST">
+              <form action="/single/<%= SingleArticles._id %>/comment" method="POST">
                   <div class="mb-3">
                       <label class="form-label">Name</label>
                       <input type="text" class="form-control" name="name" required>

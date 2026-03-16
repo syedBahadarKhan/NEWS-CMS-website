@@ -23,7 +23,7 @@ const index = async (req, res) => {
 
                                 
     //  res.json({paginatedArticles})
-        res.render('index', {paginatedArticles});
+        res.render('index', {paginatedArticles, query:req.query});
 }
 
 const articlesByCategory = async (req, res) => {
@@ -49,8 +49,11 @@ const singleArticle = async (req, res) => {
                                      .populate('category', {'name':1, 'slug':1})
                                      .populate('author', {'fullname':1})
                                     .sort({createdAt:-1})
-                          
-    res.render('single' , {SingleArticles});
+
+//Get all comments for this article
+const comments = await commentModel.find({ article:req.params.id, status:'approved'}).sort('-createdAt')
+    res.json({SingleArticles, comments})                                                           
+    // res.render('single' , {SingleArticles, comments});
 }
 
 
@@ -96,15 +99,15 @@ const author = async (req, res) => {
 
 
 const addComment = async (req, res) => {
-
-    const  articles = await articleModel.find()
-                                     .populate('category', {'name':1, 'slug':1})
-                                     .populate('author', {'fullname':1})
-                                    .sort({createdAt:-1})
-
-    const categoriesInUse = await articleModel.distinct('category');
-    const categories = await categoryModel.find({_id: {$in: categoriesInUse}})                                
-    res.render('addComment' , {articles, categories});
+    try{
+    const {name, email, content} = req.body;
+    const comment =  new commentModel({name, email, content, article:req.params.id})
+    await comment.save();
+    res.redirect(`/single/${req.params.id}`);
+    }catch(error){
+        console.error(error);
+        res.status(500).send("An error occurred while adding the comment");
+    }
 
 }
 

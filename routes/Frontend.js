@@ -10,6 +10,6 @@ router.get("/category/:name", frontendController.articlesByCategory);
 router.get("/single/:id", frontendController.singleArticle);
 router.get("/search", frontendController.search);
 router.get("/author/:id", frontendController.author);
-router.post("/single/:id", frontendController.addComment);
+router.post("/single/:id/comment", frontendController.addComment);
 
 export default router;
