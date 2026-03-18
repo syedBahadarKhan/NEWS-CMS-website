@@ -51,9 +51,10 @@ const singleArticle = async (req, res) => {
                                     .sort({createdAt:-1})
 
 //Get all comments for this article
-const comments = await commentModel.find({ article:req.params.id, status:'approved'}).sort('-createdAt')
-    res.json({SingleArticles, comments})                                                           
-    // res.render('single' , {SingleArticles, comments});
+const comments = await commentModel.find({ article:req.params.id, status:'approved'})
+                                          .sort('-createdAt')
+    // res.json({SingleArticles, comments})                                                           
+    res.render('single' , {SingleArticles, comments});
 }
 
 

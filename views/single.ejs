@@ -51,4 +51,16 @@
       </div>
 
       <!-- Display Comments -->
-  </div>
+        <div class="comments-list">
+          <% comments.forEach(function(comment){%>
+        <div class="card mb-3">
+          <div class="card-body">
+            <h6 class="card-subtitle mb-2 text-muted"><%=comment.name%></h6>
+            <p class="card-text"><%=comment.content%></p>
+             <small class="text-muted">Posted on <%= new Date(comment.createdAt).toLocaleDateString('en-GB', { day: '2-digit', month: 'long', year: 'numeric' }) %></small>
+          </div>
+        </div>
+        <%});%>
+      </div>
+    </div>
+ 

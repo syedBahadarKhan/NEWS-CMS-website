@@ -49,12 +49,14 @@ router.delete("/delete-article/:id", isLoggedIn,  articlecontroller.deleteArticl
 
 //Comments Rute
 router.get("/comments", isLoggedIn, commentcontroller.allComments);
+router.put("/update-comment-status/:id", isLoggedIn, commentcontroller.updateCommentStatus);
+router.delete("/delete-comment/:id", isLoggedIn, commentcontroller.deleteComment);
 
 
 // 404 Middleware
 router.use(isLoggedIn, (req, res, next) =>{
     res.status(404).render('admin/404', {
-        message:"Page not Found",
+        message:"Page not Found", 
         role: req.role
     })
 })
