@@ -1,11 +1,20 @@
 import commentModel from '../Models/comment.js';
 import createError from '../utilities/error-message.js';
 //function for all the comment routes
-const allComments = async (req, res) => {
+const allComments = async (req, res, next) => {
     try{
-     const comments = await commentModel.find()
-                             .populate('article', 'title')
-                             .sort({createdAt : -1})
+     let comments;
+     if(req.role === "admin"){
+      comments = await commentModel.find()
+                                        .populate('article', 'title')
+                                        .sort({createdAt : -1})
+     }else{
+        const news = await articleModel.find({ author: req.id });
+        const articlesId = news.map(news => news._id )
+        comments = await commentModel.find({ article: { $in: articlesId} })
+                                        .populate('article', 'title')
+                                         .sort({createdAt : -1})
+     }
     res.json(comments)
     // res.render("admin/comments", {comments, role:req.role})
     }catch (error){
@@ -14,13 +23,13 @@ const allComments = async (req, res) => {
 }
 
 
-const updateCommentStatus = async (req, res) =>{
-    res.render('admin/comments', {role: req.role})
+const updateCommentStatus = async (req, res, next) =>{
+    
 }
 
 
-const deletecomment = async (req, res) =>{
-    res.render('admin/comments', {role: req.role})
+const deletecomment = async (req, res, next) =>{
+   
 }
 
 export default {
