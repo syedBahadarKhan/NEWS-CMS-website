@@ -26,16 +26,34 @@ const allComments = async (req, res, next) => {
 
 
 const updateCommentStatus = async (req, res, next) =>{
-    
+    try{
+       const comment = await commentModel.findByIdAndUpdate(req.params.id, {status: req.body.status}, {new: true})
+        if(!comment){
+            return next(createError("comment not found", 404));
+        }
+        // res.redirect('/admin/comments')
+        res.json({success: true});
+    } catch (error) {
+         next(createError("Error updating comment status", 500)); 
+    }  
 }
 
 
 const deleteComment = async (req, res, next) =>{
-   
-}
+try{
+  const comment = await commentModel.findByIdAndDelete(req.params.id)
+  if(!comment){
+    return next(createError("comment not found", 404))
+  }
+  res.json({success: true})
+}catch(error){
+   next(createError("Error deleting comment", 500));
+} 
+} 
+
 
 export default {
     allComments,
-   updateCommentStatus,
+    updateCommentStatus,
     deleteComment
 }
