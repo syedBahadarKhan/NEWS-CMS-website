@@ -1,5 +1,6 @@
 import commentModel from '../Models/comment.js';
 import createError from '../utilities/error-message.js';
+import articleModel from '../Models/article.js'
 //function for all the comment routes
 const allComments = async (req, res, next) => {
     try{
@@ -15,9 +16,10 @@ const allComments = async (req, res, next) => {
                                         .populate('article', 'title')
                                          .sort({createdAt : -1})
      }
-    res.json(comments)
-    // res.render("admin/comments", {comments, role:req.role})
+    // res.json(comments)
+    res.render("admin/comments", {comments, role:req.role})
     }catch (error){
+     console.log("REAL ERROR 👉", error)
      next(createError("Error while fetching comments", 500))
     }
 }
@@ -28,10 +30,12 @@ const updateCommentStatus = async (req, res, next) =>{
 }
 
 
-const deletecomment = async (req, res, next) =>{
+const deleteComment = async (req, res, next) =>{
    
 }
 
 export default {
-    allComments
+    allComments,
+   updateCommentStatus,
+    deleteComment
 }

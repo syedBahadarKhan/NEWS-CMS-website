@@ -1,136 +1,74 @@
-  <div id="admin-content">
-      <div class="container">
-          <div class="row">
-              <div class="col-md-12">
-                  <h1 class="admin-heading"><i class="fa fa-comments"></i> Comments Management</h1>
-              </div>
-              <div class="col-md-12">
-                  <table class="content-table" style="background: white;">
-                      <thead>
-                          <th>Article</th>
-                          <th>Name</th>
-                          <th>Comment</th>
-                          <th>Status</th>
-                          <th>Date</th>
-                          <th>Actions</th>
-                      </thead>
-                      <tbody>
-                          <tr>
-                            <td class='id'>Ipsum dolor sit amet</td>
-                            <td>Rahul Sharma</td>
-                            <td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus, eveniet!</td>
-                            <td>Approved</td>
-                            <td>02-Nov-2025</td>
-                            <td class='edit'>
-                              <select name="status" class="form-select form-select-sm d-inline-block w-auto">
-                                <option value="pending">Pending</option>
-                                <option value="approved" selected="">Approved</option>
-                                <option value="rejected">Rejected</option>
-                              </select>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td class='id'>Ipsum dolor sit amet</td>
-                            <td>Rahul Sharma</td>
-                            <td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus, eveniet!</td>
-                            <td>Approved</td>
-                            <td>02-Nov-2025</td>
-                            <td class='edit'>
-                              <select name="status" class="form-select form-select-sm d-inline-block w-auto">
-                                <option value="pending">Pending</option>
-                                <option value="approved" selected="">Approved</option>
-                                <option value="rejected">Rejected</option>
-                              </select>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td class='id'>Ipsum dolor sit amet</td>
-                            <td>Rahul Sharma</td>
-                            <td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus, eveniet!</td>
-                            <td>Approved</td>
-                            <td>02-Nov-2025</td>
-                            <td class='edit'>
-                              <select name="status" class="form-select form-select-sm d-inline-block w-auto">
-                                <option value="pending">Pending</option>
-                                <option value="approved" selected="">Approved</option>
-                                <option value="rejected">Rejected</option>
-                              </select>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td class='id'>Ipsum dolor sit amet</td>
-                            <td>Rahul Sharma</td>
-                            <td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus, eveniet!</td>
-                            <td>Approved</td>
-                            <td>02-Nov-2025</td>
-                            <td class='edit'>
-                              <select name="status" class="form-select form-select-sm d-inline-block w-auto">
-                                <option value="pending">Pending</option>
-                                <option value="approved" selected="">Approved</option>
-                                <option value="rejected">Rejected</option>
-                              </select>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td class='id'>Ipsum dolor sit amet</td>
-                            <td>Rahul Sharma</td>
-                            <td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus, eveniet!</td>
-                            <td>Approved</td>
-                            <td>02-Nov-2025</td>
-                            <td class='edit'>
-                              <select name="status" class="form-select form-select-sm d-inline-block w-auto">
-                                <option value="pending">Pending</option>
-                                <option value="approved" selected="">Approved</option>
-                                <option value="rejected">Rejected</option>
-                              </select>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td class='id'>Ipsum dolor sit amet</td>
-                            <td>Rahul Sharma</td>
-                            <td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus, eveniet!</td>
-                            <td>Approved</td>
-                            <td>02-Nov-2025</td>
-                            <td class='edit'>
-                              <select name="status" class="form-select form-select-sm d-inline-block w-auto">
-                                <option value="pending">Pending</option>
-                                <option value="approved" selected="">Approved</option>
-                                <option value="rejected">Rejected</option>
-                              </select>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td class='id'>Ipsum dolor sit amet</td>
-                            <td>Rahul Sharma</td>
-                            <td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus, eveniet!</td>
-                            <td>Approved</td>
-                            <td>02-Nov-2025</td>
-                            <td class='edit'>
-                              <select name="status" class="form-select form-select-sm d-inline-block w-auto">
-                                <option value="pending">Pending</option>
-                                <option value="approved" selected="">Approved</option>
-                                <option value="rejected">Rejected</option>
-                              </select>
-                            </td>
-                          </tr>
-                      </tbody>
-                  </table>
-                  <nav aria-label="...">
-                    <ul class="pagination">
-                      <li class="page-item disabled">
-                        <a class="page-link">Previous</a>
-                      </li>
-                      <li class="page-item"><a class="page-link" href="#">1</a></li>
-                      <li class="page-item active">
-                        <a class="page-link" href="#" aria-current="page">2</a>
-                      </li>
-                      <li class="page-item"><a class="page-link" href="#">3</a></li>
-                      <li class="page-item">
-                        <a class="page-link" href="#">Next</a>
-                      </li>
-                    </ul>
-                  </nav>
-              </div>
-          </div>
-      </div>
-  </div>
+<div id="admin-content">
+ <div class="container">
+   <div class="row">
+<div class="col-md-12">
+<h1 class="admin-heading"><i class="fa fa-comments"></i> Comments Management</h1>
+</div>
+<div class="col-md-12">
+     <div id="commentTable"></div>
+</div>
+</div>
+</div>
+</div>
+
+
+
+<script type="text/javascript" src="https://unpkg.com/tabulator-tables/dist/js/tabulator.min.js"></script>
+<script>
+  const tableData = <%- JSON.stringify(users) %>;
+//   console.log(tableData);
+   
+ var table = new Tabulator("#userTable", {
+    data: tableData,
+    layout: "fitColumns",
+    pagination: true,
+    paginationSize: 10,
+    columns: [
+      { title: "S.NO.", formatter: "rownum", hozAlign: "center", width: 100 },
+      { title: "Full Name", field: "fullname", headerFilter: "input" },
+      { title: "Username", field: "username", headerFilter: "input" },
+      { title: "Role", field: "role", headerFilter: "input" },
+      {
+        title: "Actions",
+        formatter: function (cell, formatterParams, onRendered) {
+          return `
+            <a href="/admin/update-user/${cell.getData()._id}" class="btn btn-sm btn-success">Edit</a>
+            <button class="btn btn-sm btn-danger"
+              onclick="deleteUser('${cell.getData()._id}')">Delete</button>
+          `;
+        }
+      }
+    ]
+  });
+
+  
+  
+
+
+
+  //Delete User function
+  async function deleteUser(id){
+    try{
+      if(confirm("Are you sure to delte this user")){
+       const response= await fetch(`/admin/delete-user/${id}`, {
+          method:"delete"
+        });
+        if(response.ok){
+          window.location.reload();
+        }
+
+        if(response.status == 400){
+          const data = await response.json();
+          alert(data.message)
+        }
+      }
+
+    }catch(err){
+      console.error(err);
+    }
+  }
+</script>
+
+<%- contentFor('tabulatorCSS') %>
+ <link href="https://unpkg.com/tabulator-tables@6.2.5/dist/css/tabulator_bootstrap5.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/tabulator-tables@6.5.1/dist/css/tabulator.min.css"> 

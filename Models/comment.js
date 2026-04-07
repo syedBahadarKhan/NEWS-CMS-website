@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const commentSchema = new mongoose.Schema({
     article: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'News',
+        ref: 'article',
         required: true
     },
     name: {
@@ -23,7 +23,7 @@ const commentSchema = new mongoose.Schema({
         enum: ['pending', 'approved', 'rejected'],
         default: 'pending',
         required: true
-    }
+    },
 },  {
     timestamps: true
 });

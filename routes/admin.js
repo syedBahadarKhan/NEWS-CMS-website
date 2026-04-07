@@ -2,7 +2,7 @@ import express from "express"
 const router = express.Router();
 import articlecontroller from "../Controllers/articlecontroller.js";
 import categorycontroller from "../controllers/categorycontroller.js";
-import commentcontroller from "../controllers/commentcontroller.js";
+import commentcontroller from "../Controllers/commentcontroller.js";
 import usercontroller from "../controllers/usercontroller.js";
 import isLoggedIn from "../middlewares/isLoggedin.js";
 import isAdmin from "../middlewares/isAdmin.js";
@@ -49,8 +49,8 @@ router.delete("/delete-article/:id", isLoggedIn,  articlecontroller.deleteArticl
 
 //Comments Rute
 router.get("/comments", isLoggedIn, commentcontroller.allComments);
-// router.put("/update-comment-status/:id", isLoggedIn, commentcontroller.updateCommentStatus);
-// router.delete("/delete-comment/:id", isLoggedIn, commentcontroller.deleteComment);
+router.put("/update-comment-status/:id", isLoggedIn, commentcontroller.updateCommentStatus);
+router.delete("/delete-comment/:id", isLoggedIn, commentcontroller.deleteComment);
 
 
 // 404 Middleware
@@ -75,12 +75,12 @@ router.use(isLoggedIn, (err, req, res, next) =>{
         view = "admin/404";
         break;
     case 500:
-        view = "admin/500";
+        view = "admin/505";
         break;
     default:
-        view = "admin/500";        
+        view = "admin/505";        
    }
-    res.status(500).render(view, {
+    res.status(status).render(view, {
         message: err.message || "Internal Server Error",
         role: req.role
     })

@@ -198,7 +198,7 @@ const updateUser = async (req, res, next) => {
         }
         user.role = role || user.role;
         await user.save()
-        res.redirect("/admin/users", {role: req.role});
+        res.redirect("/admin/users");
     }catch(error){
         // console.error(error);
         // res.status(500).send("Internal Server Error");

@@ -57,7 +57,6 @@ const comments = await commentModel.find({ article:req.params.id, status:'approv
     res.render('single' , {SingleArticles, comments});
 }
 
-
 const search = async (req, res) => {
     const serchQuery = req.query.search
     const paginatedArticles = await paginate(articleModel, {
@@ -77,7 +76,6 @@ const search = async (req, res) => {
     res.render('search' , {paginatedArticles,  searchQuery: serchQuery, query:req.query});
 } 
 
-
 const author = async (req, res) => {
     const author = await userModel.findById(req.params.id);
     if(!author){
@@ -95,9 +93,6 @@ const author = async (req, res) => {
             
     res.render('author', {paginatedArticles, author, query:req.query});
 }
-
-
-
 
 const addComment = async (req, res) => {
     try{
