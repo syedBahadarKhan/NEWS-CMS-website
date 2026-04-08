@@ -8,6 +8,7 @@ import commentModel from '../Models/comment.js';
 import userModel from '../Models/user.js';
 import settingModel from '../Models/setting.js';
 import paginate from "../utilities/paginate.js";
+import createError from '../utilities/error-message.js';
 
 
 
@@ -26,10 +27,10 @@ const index = async (req, res) => {
         res.render('index', {paginatedArticles, query:req.query});
 }
 
-const articlesByCategory = async (req, res) => {
+const articlesByCategory = async (req, res, next) => {
     const category = await categoryModel.findOne({slug: req.params.name});
     if (!category){
-     return res.status(404).send("Category not found");
+     return next(createError("Category Not Found", 404)) 
 
     }
     const paginatedArticles = await paginate(articleModel, {category: category._id}, 
@@ -44,11 +45,12 @@ const articlesByCategory = async (req, res) => {
 }
 
 
-const singleArticle = async (req, res) => {
+const singleArticle = async (req, res, next) => {
        const  SingleArticles = await articleModel.findById(req.params.id)
                                      .populate('category', {'name':1, 'slug':1})
                                      .populate('author', {'fullname':1})
                                     .sort({createdAt:-1})
+       if(!SingleArticles)return next(createError("Article Not Found", 404))                             
 
 //Get all comments for this article
 const comments = await commentModel.find({ article:req.params.id, status:'approved'})
@@ -76,10 +78,55 @@ const search = async (req, res) => {
     res.render('search' , {paginatedArticles,  searchQuery: serchQuery, query:req.query});
 } 
 
-const author = async (req, res) => {
+
+
+// const search = async (req, res, next) => {
+//     try {
+//         const searchQuery = req.query.search?.trim() || "";
+//         const category = req.query.category || "";
+//         const page = parseInt(req.query.page) || 1;
+//         const limit = 5;
+
+//         // 🔍 Build query dynamically
+//         let query = {};
+
+//         if (searchQuery) {
+//             query.$or = [
+//                 { title: { $regex: searchQuery, $options: 'i' } },
+//                 { content: { $regex: searchQuery, $options: 'i' } }
+//             ];
+//         }
+
+//         if (category) {
+//             query.category = category;
+//         }
+
+//         const total = await articleModel.countDocuments(query);
+
+//         const articles = await articleModel.find(query)
+//             .populate('category', 'name slug')
+//             .populate('author', 'fullname')
+//             .sort({ createdAt: -1 })
+//             .skip((page - 1) * limit)
+//             .limit(limit);
+
+//         res.render("search", {
+//             articles,
+//             searchQuery,
+//             category,
+//             currentPage: page,
+//             totalPages: Math.ceil(total / limit)
+//         });
+
+//     } catch (error) {
+//         console.log(error);
+//         next(error);
+//     }
+// };
+const author = async (req, res, next) => {
     const author = await userModel.findById(req.params.id);
     if(!author){
-        return res.status(500).send("author not found")
+       return next(createError("Author Not Found", 404)) 
 
     }
      const paginatedArticles = await paginate(articleModel, {author: req.params.id}, 
@@ -94,15 +141,14 @@ const author = async (req, res) => {
     res.render('author', {paginatedArticles, author, query:req.query});
 }
 
-const addComment = async (req, res) => {
+const addComment = async (req, res, next) => {
     try{
     const {name, email, content} = req.body;
     const comment =  new commentModel({name, email, content, article:req.params.id})
     await comment.save();
     res.redirect(`/single/${req.params.id}`);
     }catch(error){
-        console.error(error);
-        res.status(500).send("An error occurred while adding the comment");
+        return next(createError("An error occurred while adding the comment", 500)) 
     }
 
 }
