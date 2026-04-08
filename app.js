@@ -32,10 +32,10 @@ mongoose.connect(process.env.MONGODB_URI)
 })
 
 
-//frontend route 
 
 
-app.use('/', frontendRouter)
+
+
 
 //admin route
 app.use('/admin', (req, res, next) => {
@@ -43,6 +43,9 @@ app.use('/admin', (req, res, next) => {
          next();
 })
 app.use('/admin', adminRouter)
+
+//frontend route 
+app.use('/', frontendRouter)
 
 
 
