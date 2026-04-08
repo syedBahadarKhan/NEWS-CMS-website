@@ -81,6 +81,14 @@
     });
   });
 
+
+  document.querySelector('form').addEventListener("submit", function (event) {
+        const unwantedfield = document.querySelector('input[type= "file"]')
+        if(unwantedfield) {
+            unwantedfield.remove();
+        }
+  })
+
 </script>
 
 

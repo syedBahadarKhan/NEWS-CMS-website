@@ -114,9 +114,11 @@ img.logo{
 }
 
 #admin-content{
+  align-items: center;
   background: #fff;
   padding: 20px 0;
   min-height: 750px;
+  
 }
 
 #admin-content .admin-heading{
@@ -190,6 +192,10 @@ img.logo{
 .edit,
 .delete{
   text-align:center;
+}
+
+.note-editor.note-frame.fullscreen{
+  background-color: #fff;
 }
 
 /* ===================== */
