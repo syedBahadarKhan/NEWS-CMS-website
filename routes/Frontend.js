@@ -16,7 +16,7 @@ router.post("/single/:id/comment", frontendController.addComment);
 
 router.use((req, res, next) =>{
     res.status(404).render("404",{
-        message:"Pagr Not Found"
+        message:"Page Not Found"
     })
 })
 
