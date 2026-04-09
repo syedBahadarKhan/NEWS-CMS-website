@@ -5,6 +5,7 @@ import { fileURLToPath } from "url";
 import path from "path"
 import expressLayouts from "express-ejs-layouts"
 import cookieParser from "cookie-parser"
+import minifyHTML from'express-minify-html-terser';
 import flash from "connect-flash"
 import dotenv from "dotenv"
 import frontendRouter from './routes/Frontend.js';
@@ -19,6 +20,19 @@ app.use(expressLayouts);
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
+
+app.use(minifyHTML({
+    override:      true,
+    exception_url: false,
+    htmlMinifier: {
+        removeComments:            true,
+        collapseWhitespace:        true,
+        collapseBooleanAttributes: true,
+        removeAttributeQuotes:     true,
+        removeEmptyAttributes:     true,
+        minifyJS:                  true
+    }
+}))
 //View Engine 
 app.set("view engine", "ejs")
 const PORT  = process.env.PORT 
