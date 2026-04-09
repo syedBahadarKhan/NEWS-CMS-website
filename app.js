@@ -6,6 +6,7 @@ import path from "path"
 import expressLayouts from "express-ejs-layouts"
 import cookieParser from "cookie-parser"
 import minifyHTML from'express-minify-html-terser';
+import compression from "compression"
 import flash from "connect-flash"
 import dotenv from "dotenv"
 import frontendRouter from './routes/Frontend.js';
@@ -20,6 +21,7 @@ app.use(expressLayouts);
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
+app.use(compression())
 
 app.use(minifyHTML({
     override:      true,

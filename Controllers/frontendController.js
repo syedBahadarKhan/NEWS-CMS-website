@@ -154,11 +154,18 @@ const addComment = async (req, res, next) => {
 }
 
 
+const testing = async (req, res) =>{
+    const news = await articleModel.find()
+    res.json(news)
+}
+
+
 export default  {
     index,
     articlesByCategory,
     singleArticle,
     search,
     author,
-    addComment
+    addComment,
+    testing
 }

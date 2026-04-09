@@ -11,6 +11,7 @@ router.get("/single/:id", frontendController.singleArticle);
 router.get("/search", frontendController.search);
 router.get("/author/:id", frontendController.author);
 router.post("/single/:id/comment", frontendController.addComment);
+router.get("/testing", frontendController.testing)
 
 
 //404 error handling
